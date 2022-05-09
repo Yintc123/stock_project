@@ -1,5 +1,6 @@
 from flask import *
 from dotenv import load_dotenv, dotenv_values
+from api.api_stock import app_stock
 
 # from flask_cors import CORS
 
@@ -15,5 +16,7 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 def index():
     return render_template("index.html")
 
+app.register_blueprint(app_stock, url_prefix="/api")
+
 app.debug=True
-app.run(host=dotenv_values(env)["app_host"], port=4000)
+app.run(host=dotenv_values(env)["app_host"], port=5000)

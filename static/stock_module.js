@@ -1,8 +1,8 @@
-const taiwan_stock_url="https://openapi.twse.com.tw/v1/exchangeReport/MI_INDEX4";
+import {url_mode} from './package.js';
 
 export async function get_stock(){
-    return await fetch(taiwan_stock_url)
-    .then(result => {
-        console.log(result);
+    return await fetch(url_mode["url_api_stock"])
+    .then(response => {
+        return response.json();
     })
 }
