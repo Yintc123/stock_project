@@ -1,7 +1,7 @@
 from flask import *
 from dotenv import *
 from .finmind_module import fm
-from data.stock_db import stock_info_db
+from data.stock_db import stock_info_db as stk_db
 
 env='.env' # 執行環境
 load_dotenv(override=True)
@@ -31,7 +31,7 @@ def get_stock(stock_id):
     stock["stock_transaction"]=fm_sdk.get_stock_transaction() # 將dataframe格式轉為dictionary
     stock["stock_data"]=fm_sdk.get_stock_data() # 將dataframe格式轉為dictionary
     stock["stock_data"].update(fm_sdk.get_stock_eps())
-    stk=stock_info_db()
+    stk=stk_db()
     data=stk.get_stock(stock_id)
     if data:
         data=data[0]
@@ -52,7 +52,7 @@ def get_stock_PER(stock_id):
 @app_stock.route("/stock/<stock_id>/EPS", methods=["GET"])
 def get_stock_EPS(stock_id):
     data={"stock_data":None}
-    stk=stock_info_db()
+    stk=stk_db()
     d=stk.get_stock(stock_id)
     reversed_data=list(reversed(d)) # 反轉list使各回傳資料順序一致
     data["stock_data"]=reversed_data

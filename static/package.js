@@ -1,4 +1,4 @@
-const domain_name="stock.yin888.info";
+const domain_name="yin888.info";
 const ec2="3.115.234.130:5000";
 
 const url={
@@ -8,9 +8,9 @@ const url={
         "url_api_stocks_news":"http://127.0.0.1:5000/api/stocks/news",
     },
     "prod":{
-        "url_stock":"http://"+domain_name+"/",
-        "url_api_stock":"http://"+domain_name+"/api/stock/",
-        "url_api_stocks_news":"http://"+domain_name+"/api/stocks/news",
+        "url_stock":"https://"+domain_name+"/",
+        "url_api_stock":"https://"+domain_name+"/api/stock/",
+        "url_api_stocks_news":"https://"+domain_name+"/api/stocks/news",
     }
 };
 
