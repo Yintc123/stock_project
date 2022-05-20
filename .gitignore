@@ -1,3 +1,5 @@
 .env
 .env.production
 .env.develop
+.env.prod
+.env.dev
