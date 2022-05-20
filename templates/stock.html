@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, min-height=device-height"/>
+        <title>stock</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='stock.css')}}">
+    </head>
+    <body>
+        <div id="loading_background">
+            <div id="loading">
+                <div class="lds-ripple"><div></div><div></div></div>
+            </div>
+        </div>
+        <div id="container_navigation">
+            <div id="navigation">
+                <div id="div_search">
+                    <input id="input_search" type="text" placeholder="請輸入2330, 2454, 1101">
+                    <button id="button_search">搜尋</button>
+                </div>
+                <ul>
+                    <li>會員登入</li>
+                </ul>
+            </div>
+        </div>
+        <div id="container_content">
+            <div><h1><span id="stock_id">0050</span> <span id="stock_name">股票名稱</span></h1></div>
+            <div id="container_candlestick_chart"></div>
+            <div id="button_list">
+                <button id="button_crosshair">Magnet</button>
+                <button id="button_sma-10" class="button_sma">10日線</button>
+                <button id="button_sma-30" class="button_sma">月線</button>
+                <button id="button_sma-365" class="button_sma">年線</button>
+            </div>
+            <div id="stock_content">
+                <div id="ul_stock_info">
+                    <ul>
+                        <li class="li_block" id="li_PER">
+                            <div class="block_stock_info">本益比</div>
+                            <div id="block_PER" class="block">100</div>
+                        </li>
+                        <li class="li_block" id="li_dividend-yield">
+                            <div class="block_stock_info">現金殖利率(%)</div>
+                            <div id="block_dividend-yield" class="block">100</div>
+                        </li>
+                        <li class="li_block" id="li_PBR">
+                            <div class="block_stock_info">股價淨值比</div>
+                            <div id="block_PBR" class="block">100</div>
+                        </li>
+                        <li class="li_block2" id="li_EPS">
+                            <div class="block_stock_info">近4季EPS</div>
+                            <div id="block_EPS" class="block">100</div>
+                        </li>
+                        <li class="li_block2" id="li_ROE">
+                            <div class="block_stock_info">ROE(%)</div>
+                            <div id="block_ROE" class="block">100</div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="div_stock_info">
+                </div>
+            </div>
+        </div>
+        <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+        <script type="module" src="{{url_for('static', filename='stock.js')}}"></script>
+    </body>
+</html>

@@ -15,6 +15,9 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 @app.route("/")
 def index():
     return render_template("index.html")
+@app.route("/<stock_id>")
+def stock(stock_id):
+    return render_template("stock.html")
 
 app.register_blueprint(app_stock, url_prefix="/api")
 
