@@ -1,9 +1,6 @@
 import {url_mode} from './package.js';
 
 export async function get_stock(stock_id){
-    if (stock_id==null){
-        stock_id="2330";
-    }
     let url=url_mode["url_api_stock"]+stock_id
     return await fetch(url)
                 .then(response => {

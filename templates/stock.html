@@ -4,6 +4,12 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, min-height=device-height"/>
         <title>stock</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='body.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='content.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='nav.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='loading.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='tradingview.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='footer.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='stock.css')}}">
     </head>
     <body>
@@ -24,8 +30,8 @@
             </div>
         </div>
         <div id="container_content">
-            <div><h1><span id="stock_id">0050</span> <span id="stock_name">股票名稱</span></h1></div>
-            <div id="container_candlestick_chart"></div>
+            <div id="div_stock_title"><h1><span id="stock_id">0050</span> <span id="stock_name">股票名稱</span></h1></div>
+            <div id="container_chart"></div>
             <div id="button_list">
                 <button id="button_crosshair">Magnet</button>
                 <button id="button_sma-10" class="button_sma">10日線</button>
@@ -60,6 +66,9 @@
                 <div id="div_stock_info">
                 </div>
             </div>
+        </div>
+        <div id="container_footer">
+            <h4>COPYRIGHT © stock_info</h4>
         </div>
         <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
         <script type="module" src="{{url_for('static', filename='stock.js')}}"></script>

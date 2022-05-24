@@ -30,5 +30,6 @@ class stock_info_db():
             self.close()
             return data
         except:
+            self.close() # 出現error直接關閉連線，避免佔用資料庫資源
             print("error in function, get_stock()")
-            return [{"data":None}]
+            return None

@@ -1,13 +1,11 @@
-// let container_width=800;
-// let container_height=400;
+const container_chart=document.querySelector("#container_chart");
 
-let container_width=document.querySelector("#container_candlestick_chart").clientWidth;
-let container_height=document.querySelector("#container_candlestick_chart").clientHeight;
+let container_width=container_chart.clientWidth*0.95;
+let container_height=container_chart.clientHeight;
 //-----------------------------------Function--------------------------------------
 //--------------------------------畫面處理(V)-------------------------------//
 function init_chart(mode){
-    // create_chart_div();
-    let chart = LightweightCharts.createChart(document.getElementById("container_candlestick_chart"), {
+    let chart = LightweightCharts.createChart(container_chart, {
         width: container_width,
         height: container_height,
         layout: {
@@ -64,6 +62,23 @@ function create_volume_chart(chart, data){
     volumeSeries.setData(newdata);
 }
 
+function create_index_chart(chart, data){
+    const result=judge_trends(data);
+    let color={
+        "increase":"255,82,82",
+        "decrease":"38,198,218",
+        "equal":"255, 255, 255"
+    };
+    let areaSeries = chart.addAreaSeries({
+        topColor: 'rgba('+color[result]+', 0.56)',
+        bottomColor: 'rgba('+color[result]+', 0.04)',
+        lineColor: 'rgba('+color[result]+', 1)',
+        lineWidth: 2,
+    });
+    let new_data=translate_to_value_data(data);
+    areaSeries.setData(new_data);
+}
+
 function create_sma(chart, data, period, color){
     let smaData = calculate_sma(data, period);
     let smaLine = chart.addLineSeries({
@@ -79,7 +94,7 @@ function translate_to_volume_data(data){
     let new_data=[];
     for(let i=0;i<data.length;i++){
         let temp={};
-        let trend=data[i]["open"]-data[i]["close"]
+        let trend=data[i]["open"]-data[i]["close"];
         temp["time"]=data[i]["time"];
         temp["value"]=data[i]["Trading_Volume"];
         if (trend<0){
@@ -89,6 +104,20 @@ function translate_to_volume_data(data){
         }else{
             temp["color"]="rgba(255,255,255, 0.6)";//平盤，白色
         }
+        new_data.push(temp);
+    }
+    return new_data;
+}
+
+function translate_to_value_data(data){
+    let new_data=[];
+    for (let i=0;i<data.length;i++){
+        let temp={
+            "time":null,
+            "value":null
+        }
+        temp["time"]=data[i]["time"];
+        temp["value"]=data[i]["close"];
         new_data.push(temp);
     }
     return new_data;
@@ -112,10 +141,29 @@ function calculate_avg(data){
     }
     return sum/data.length;
 }
+
+function judge_trends(data){
+    let result=data[data.length-1]["spread"];
+    if(result>0){
+        return "increase";
+    }else if(result<0){
+        return "decrease";
+    }else{
+        return "equal";
+    }
+}
 //-------------------------------------export----------------------------------------
-export function load_chart(mode, data){
+export function load_chart(mode, data, chart_type){
     let chart = init_chart(mode);
-    create_candlestick_chart(chart, data);
+    // const charts={
+    //     "candlestick":create_candlestick_chart(chart, data),
+    //     "index":create_index_chart(chart, data)
+    // }
+    if (chart_type=="candlestick"){
+        create_candlestick_chart(chart, data);
+    }else if(chart_type=="index"){
+        create_index_chart(chart, data);
+    }
     create_volume_chart(chart, data);
     return chart;
 }

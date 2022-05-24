@@ -23,38 +23,20 @@ class fm():
 
         return df.to_dict('records') # 將dataframe格式轉為list
 
-    def get_stock_data(self):
+    def get_stock_data(self, period):
         try:
             df=self.fin_mind.taiwan_stock_per_pbr(
                 stock_id=self.stock_id,
-                start_date=datetime.date.today() - datetime.timedelta(days=1) # 今日未收盤，故無今日的per值，需使用昨日日期
+                start_date= datetime.date.today() - datetime.timedelta(days=period) # 今日未收盤，故無今日的per值，需使用昨日日期
             )
 
             df.rename(columns={
                 'dividend_yield':'dividend-yield',
             }, inplace=True)
-            
-            return df.to_dict('records')[0] # 將dataframe格式轉為dictionary
+            return df.to_dict('index') # 將dataframe格式以index為key轉為dictionary
         except:
             print("error in get_stock_data()")
             return {"data":None}
-
-    def get_stock_data_10days(self):
-        try:
-            df=self.fin_mind.taiwan_stock_per_pbr(
-                stock_id=self.stock_id,
-                start_date=datetime.date.today() - datetime.timedelta(days=10) # 今日未收盤，故無今日的per值，需使用昨日日期
-            )
-
-            df.rename(columns={
-                'dividend_yield':'dividend-yield',
-            }, inplace=True)
-            
-            return df.to_dict('index') # 將dataframe格式以index為key轉為dictionary
-        except:
-            print("error in get_stock_data_10days()")
-            return {"data":None}
-
 
     def get_stock_eps(self):
         try:
@@ -106,10 +88,17 @@ class fm():
             "source":[],
             "news_data":{}
         }
-
         for news in list_news:
             if news["source"] not in data["source"]:
                 data["source"].append(news["source"])
                 data["news_data"][news["source"]]=[]
+            if self.is_in_list(news["link"], data["news_data"][news["source"]]):
+                continue
             data["news_data"][news["source"]].append(news)
         return data
+
+    def is_in_list(self, value, dict_list):
+        for item in dict_list:
+            if value == item["link"]:
+                return True
+        return False

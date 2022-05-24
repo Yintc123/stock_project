@@ -6,11 +6,11 @@ api = DataLoader()
 # api.login_by_token(api_token='token')
 # api.login(user_id='user_id',password='password')
 
-# df = api.taiwan_stock_daily(
-#     stock_id='0050',
-#     start_date='2022-04-02',
-#     end_date='2022-04-30'
-# )
+df = api.taiwan_stock_daily(
+    stock_id='Automobile',
+    start_date='2022-04-02',
+    end_date='2022-05-21'
+)
 # # print(df)
 # # print(df["stock_id"])
 
@@ -35,6 +35,12 @@ api = DataLoader()
 # )
 
 
+# df = api.taiwan_stock_total_return_index(
+#     index_id="TAIEX",
+#     start_date='2022-05-02',
+#     end_date='2022-05-21'
+# )
+
 # df = api.taiwan_stock_info()
 # df.to_csv('test.csv',encoding='utf-8-sig')
 
@@ -46,28 +52,12 @@ api = DataLoader()
 #     if col not in needs:
 #         df=df.drop(columns=col)
 
-# print(df)
+print(df)
 
-# if df.empty:
-#     print("123")
-# else:
-#     print(456)
+if df.empty:
+    print("123")
+else:
+    print(456)
 
 
 
-import requests
-import pandas as pd
-url = "https://api.finmindtrade.com/api/v4/data"
-parameter = {
-    "dataset": "TaiwanStockNews",
-    "data_id":"2454",
-    "start_date": "2022-05-20",
-    # "end_date": "2022-04-03",
-    "token": "", # 參考登入，獲取金鑰
-}
-data = requests.get(url, params=parameter)
-data = data.json()
-data = pd.DataFrame(data['data'])
-print(data.head())
-
-data.to_csv('test_new2.csv',encoding='utf-8-sig')

@@ -1,10 +1,13 @@
 console.log("hi");
 
 import * as stock from './stock_module.js';
-// import * as trading_view from './tv_stock_chart.js';
+import * as trading_view from './tv_stock_chart.js';
 import * as search from './search_module.js';
 
-let data_news=null;
+let chart_parameter={};
+const chart_type="index";
+let news_data=null;
+let TAIEX_data=null;
 const news_trademark={
     "Yahoo奇摩新聞":"https://s.yimg.com/cv/apiv2/twfrontpage/logo/Yahoo-TW-desktop-FP@2x.png",
     "Yahoo奇摩股市":"https://s.yimg.com/rz/p/yahoo_finance_zh-Hant-TW_h_p_financev2.png",
@@ -19,13 +22,18 @@ const news_trademark={
     "今周刊-在今天看見明天":"https://www.businesstoday.com.tw/lazyweb/web/img/logo2x.png",
     "財訊":"https://www.wealth.com.tw/fbc16f9148c47642c2b0.png",
     "MoneyDJ理財網":"https://cdn.flipboard.com/dev_O/featured/28833577/logo-250x250.png"
-}
+};
+
 
 // // ----------V(View)----------
 async function init(){
-    data_news=await stock.get_stock_news();
-    console.log(data_news);
-    create_news_columns(data_news);
+    // news_data=await stock.get_stock_news();
+    TAIEX_data=await stock.get_stock("TAIEX"); //api分開request避免延遲太久影響使用者體驗
+    chart_parameter.chart=trading_view.load_chart("Magnet", TAIEX_data["stock_transaction"], chart_type);
+
+    news_data=await stock.get_stock_news(); //api分開request避免延遲太久影響使用者體驗
+    console.log(news_data)
+    create_news_columns(news_data);
     search.hide_loading();
 }
 
@@ -78,6 +86,12 @@ function create_news_title(data){
     return news_titles;
 }
 // // ----------監聽事件----------
+const button_reset=document.querySelector("#button_reset");
+
+button_reset.addEventListener("click", () => {
+    chart_parameter.chart.remove();
+    chart_parameter.chart=trading_view.load_chart("Magnet", TAIEX_data["stock_transaction"], chart_type);
+})
 
 // ----------M(Model)----------
 

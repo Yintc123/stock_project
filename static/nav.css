@@ -1,0 +1,49 @@
+#container_navigation{
+    z-index:100;
+    background-color: white;
+    position:sticky;
+    top:0px;/*sticky須設定top*/
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    display:grid;
+    grid-template-columns: 1fr 8fr 1fr;
+    font-size: 20px;
+}
+
+#navigation{
+    position:relative;
+    border:1px solid;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display:flex;
+    align-content: center;
+}
+
+#div_search{
+    display:flex;
+    align-items: center;
+}
+
+#input_search{
+    font-size: 20px;
+}
+
+#button_search{
+    font-size: 18px;
+}
+
+#navigation ul{
+    height:100%;
+    position:absolute;
+    margin:0px;
+    display:flex;
+    align-items: center;
+    right:0px;
+    list-style: none;
+}
+
+#navigation ul li{
+    cursor:pointer;
+}
