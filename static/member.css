@@ -1,0 +1,178 @@
+#div_member_button{
+    /* border:1px solid; */
+    width:100%;
+}
+
+#div_member_button ul{
+    list-style: none;
+    display:flex;
+    justify-content: center;
+    gap:50px;
+    padding:0px;
+}
+
+#div_member_button ul button{
+    width:150px;
+    height:50px;
+    font-size:20px;
+}
+
+#frame_member_info{
+    margin:50px;
+    font-size:16px;
+    /* border:1px solid; */
+    width:500px;
+}
+
+#div_photo{
+    margin:20px auto 20px auto;
+    width:300px;
+    height:300px;
+    border:1px solid;
+    overflow: hidden;
+    border-radius: 150px;
+}
+
+#div_photo img{
+    object-fit: cover;
+    width:100%;
+}
+
+#div_member_info{
+    /* border:1px solid; */
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#p_member_info{
+    /* border:1px solid; */
+    text-align: right;
+    width:120px;
+}
+
+#p_member_info p{
+    display:flex;
+    align-items: center;
+    margin:15px 0px 15px 0px;
+    height:20px;
+    justify-content: right;
+}
+
+#member_info{
+    /* border:1px solid; */
+    text-align: left;
+    /* display: none; */
+    width:300px;
+}
+
+#member_info p{
+    margin:15px 0px 15px 0px;
+    height:20px;
+    display:flex;
+    align-items: center;
+    justify-content: left;
+}
+
+#verification_icon{
+    height:20px;
+    margin:0px 5px 0px 5px;
+}
+
+#pass_msg{
+    color:green;
+    font-weight: 700;
+}
+
+#fail_msg{
+    color:red;
+    font-weight: 700;
+}
+
+#input_member_info{
+    /* border:1px solid; */
+    /* display:flex;
+    flex-wrap:wrap;
+    align-items: center; */
+    width:270px;
+    /* height:112.5px; */
+    display: none;
+}
+
+#input_member_info ul{
+    list-style-type: none;
+    padding:0px;
+}
+
+#input_member_info input{
+    height:20px;
+    width:150px;
+    margin:5px 0px 6px 0px;
+}
+
+#input_member_info button{
+    margin-left:10px;
+}
+
+.email_verification{
+    display:none;
+}
+
+#p_member_info .email_verification{
+    display:none;
+}
+
+#div_message{
+    text-align: center;
+    /* border:1px solid; */
+    min-height: 30px;
+    font-weight: 700;
+}
+
+#div_message p{
+    margin:5px;
+    padding:0px;
+    display:none;
+    height:20px;
+}
+
+#member_password{
+    /* border:1px solid; */
+}
+
+.eyes{
+    height:140%;
+    /* border:1px solid; */
+    margin-left:20px;
+    cursor:pointer;
+}
+
+#close_eye{
+    display:none;
+}
+
+#open_eye{
+    height:170%;
+}
+
+#div_switch_button{
+    /* border:1px solid; */
+}
+
+#div_switch_button ul{
+    display:flex;
+    list-style: none;
+    gap:10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding:0px;
+}
+
+#div_switch_button ul button{
+    height:30px;
+    font-size:16px;
+}
+
+.li_renew_button{
+    display:none;
+}

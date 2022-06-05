@@ -22,7 +22,7 @@ mycursor=mydb.cursor()
 # mycursor.execute("CREATE DATABASE stock_project")
 # mycursor.execute("DROP TABLE stock_info")
 
-# stock table
+# ---stock table---
 # mycursor.execute("CREATE TABLE stock_info (id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT, stock_name VARCHAR(255) NOT NULL)")
 # mycursor.execute("ALTER TABLE stock_info ADD stock_id INT NOT NULL")
 # mycursor.execute("ALTER TABLE stock_info ADD year VARCHAR(255) NOT NULL")
@@ -42,3 +42,26 @@ mycursor=mydb.cursor()
 # print(result)
 
 
+# ---member table---
+# mycursor.execute("CREATE TABLE member (id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT, username VARCHAR(255) NOT NULL)")
+# mycursor.execute("ALTER TABLE member ADD email VARCHAR(255) NOT NULL")
+# mycursor.execute("ALTER TABLE member ADD password VARCHAR(255) NOT NULL")
+# mycursor.execute("ALTER TABLE member ADD photo VARCHAR(255)")
+# mycursor.execute("ALTER TABLE member ADD creation_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
+# mycursor.execute("ALTER TABLE member ADD email_status INT")
+
+# mycursor.execute("DESCRIBE member") # 各column的屬性
+# result=mycursor.fetchall()
+# print(result)
+
+# ---favorite table---
+# mycursor.execute("CREATE TABLE favorite (id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT, user_id BIGINT NOT NULL)")
+# mycursor.execute("ALTER TABLE favorite ADD stock_id INT NOT NULL")
+# mycursor.execute("ALTER TABLE favorite ADD price BIGINT")
+# mycursor.execute("ALTER TABLE favorite ADD creation_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
+
+# mycursor.execute("ALTER TABLE favorite ADD FOREIGN KEY (user_id) REFERENCES member(id)")
+
+# mycursor.execute("DESCRIBE favorite") # 各column的屬性
+# result=mycursor.fetchall()
+# print(result)

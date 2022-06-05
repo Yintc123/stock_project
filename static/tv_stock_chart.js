@@ -1,6 +1,7 @@
 const container_chart=document.querySelector("#container_chart");
 
 let container_width=container_chart.clientWidth*0.95;
+// let container_width=container_chart.innerWidth;
 let container_height=container_chart.clientHeight;
 //-----------------------------------Function--------------------------------------
 //--------------------------------畫面處理(V)-------------------------------//

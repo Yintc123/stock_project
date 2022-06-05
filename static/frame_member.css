@@ -1,0 +1,159 @@
+#background_member{
+    z-index:101;
+    position:relative;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    background-color:black;
+    opacity: 0.6;
+    display:none;
+}
+
+#frame_member{
+    z-index:102;
+    width:340px;
+    /* height:275px; */
+    /* border:1px solid; */
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 6px;
+    display:none;
+    justify-content: center;
+    background-color:#fff5ee;
+}
+
+#div_signOut_frame{
+    /* border:1px solid; */
+    display:none;
+}
+
+#div_signIn_frame{
+    /* border:1px solid; */
+    display:none;
+}
+
+#div_title_member{
+    /* border:1px solid; */
+    position:relative;
+}
+
+#div_title_member h3{
+    font-size:24px;
+    padding:0px;
+    margin:15px 0px;
+    text-align: center;
+}
+
+#cross_frame_member{
+    position:absolute;
+    right:10px;
+    top:10px;
+    cursor:pointer;
+}
+
+#div_input_member{
+    /* border:1px solid; */
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#div_input_member input{
+    width:280px;
+    height:17px;
+    padding:15px;
+    margin-bottom:10px;
+    font-size:16px;
+    border-radius: 5px;
+}
+
+#input_username{
+    display:none;
+}
+
+#div_button_member{
+    /* border:1px solid; */
+    display:flex;
+    justify-content: center;
+}
+
+#div_button_member button{
+    width:310px;
+    height:47px;
+    font-size: 19px;
+    border-radius: 5px;
+    margin-bottom:10px;
+}
+
+#div_span_member{
+    margin:0px 0px 5px 0px;
+    padding:0px;
+    /* border:1px solid; */
+    font-size: 16px;
+    /* height:22px; */
+    text-align: center;
+}
+
+#span_member_switch{
+    cursor:pointer;
+    margin-bottom:15px;
+}
+
+#span_member_switch:hover{
+    color:blue;
+    font-weight: 700;
+}
+
+#span_member_signIn_message{
+
+}
+
+#span_member_signUp_message{
+    display:none;
+}
+#div_success_error_message{
+    display:none;
+}
+
+#span_member_error_message{
+    display:none;
+    color:red;
+    font-weight: 700;
+}
+
+#span_member_success_message{
+    display:none;
+    color:blue;
+    font-weight: 700;
+}
+
+#div_member_photo{
+    width:300px;
+    height:300px;
+    /* border:1px solid; */
+    border-radius:150px;
+    overflow:hidden;
+    margin:20px auto 20px auto;
+}
+
+#div_member_photo img{
+    width:100%;
+    height:100%;
+}
+
+#div_button{
+    display:flex;
+    justify-content: center;
+}
+
+#div_button button{
+    width:100px;
+    height:40px;
+    margin:10px;
+    border-radius: 5px;
+    font-size:16px;
+}

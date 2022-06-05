@@ -37,3 +37,5 @@ for i in title:
         arr.append(a1)
 
 print(arr)
+
+

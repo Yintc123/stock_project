@@ -16,6 +16,6 @@ window.addEventListener("keyup", function(e){//放開鍵盤剎那，觸發該事
 
 // ----------V(View)----------
 export function hide_loading(){
-    const loading_background=document.querySelector("#loading_background");
+    const loading_background=document.querySelector("#background_loading");
     loading_background.style.display="none";
 }

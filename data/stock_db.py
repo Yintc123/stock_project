@@ -8,7 +8,7 @@ class stock_info_db():
     def connection(self):
         try:
             self.conn=db.conn_pool.get_connection()
-            self.cur=self.conn.cursor(dictionary=True)
+            self.cur=self.conn.cursor(dictionary=True) # cursor return dictionary
             print("successful access to the connection")
         except:
             print("error in the connection")

@@ -7,13 +7,51 @@
         <link rel="stylesheet" href="{{url_for('static', filename='body.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='content.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='nav.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='frame_member.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='loading.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='tradingview.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='footer.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='stock.css')}}">
     </head>
     <body>
-        <div id="loading_background">
+        <div id="frame_member">
+            <div id="div_signOut_frame">
+                <div id="div_title_member">
+                    <h3>登入會員帳號</h3>
+                    <img id="cross_frame_member" class="close_frame_member" src="{{url_for('static', filename='/icon/icon_close.png')}}">
+                </div>
+                <div id="div_input_member">
+                    <input id="input_username" type="text" placeholder="請輸入使用者名稱">
+                    <input id="input_email" type="text" placeholder="請輸入email">
+                    <input id="input_password" type="text" placeholder="請輸入密碼">
+                </div>
+                <div id="div_button_member">
+                    <button id="button_member">登入帳戶</button>
+                </div>
+                <div id="div_span_member">
+                    <div id="div_sign_message">
+                        <span id="span_member_signIn_message">還沒有帳戶? </span>
+                        <span id="span_member_signUp_message">已經有帳戶了? </span>
+                    </div>
+                    <div id="div_success_error_message">
+                        <span id="span_member_error_message">error message </span>
+                        <span id="span_member_success_message">success message </span>
+                    </div>
+                    <span id="span_member_switch">點此註冊</span>
+                </div>
+            </div>
+            <div id="div_signIn_frame">
+                <div id="div_member_photo">
+                    <img class="member_photo">
+                </div>
+                <div id="div_button">
+                    <button id="button_member_page">會員頁面</button>
+                    <button id="button_signOut">登出</button>
+                </div>
+            </div>
+        </div>
+        <div id="background_member" class="close_frame_member"></div>
+        <div id="background_loading">
             <div id="loading">
                 <div class="lds-ripple"><div></div><div></div></div>
             </div>
@@ -25,18 +63,31 @@
                     <button id="button_search">搜尋</button>
                 </div>
                 <ul>
-                    <li>會員登入</li>
+                    <li><img id="home_img" src="{{url_for('static', filename='/icon/home.png')}}"></li>
+                    <li id="member_center">登入/註冊</li>
+                    <li id="li_member_photo"><img class="member_photo" id="nav_member_photo"/></li>
                 </ul>
             </div>
         </div>
         <div id="container_content">
-            <div id="div_stock_title"><h1><span id="stock_id">0050</span> <span id="stock_name">股票名稱</span></h1></div>
+            <div id="div_stock_title">
+                <h1>
+                    <span id="stock_id">0050</span> 
+                    <span id="stock_name">股票名稱</span>
+                    <img class="star" id="white_star" src="/static/icon/white_star.png">
+                    <img class="star" id="yellow_star" src="/static/icon/yellow_star.png">
+                    <button id="test">test</button>
+                </h1>
+            </div>
             <div id="container_chart"></div>
             <div id="button_list">
                 <button id="button_crosshair">Magnet</button>
                 <button id="button_sma-10" class="button_sma">10日線</button>
                 <button id="button_sma-30" class="button_sma">月線</button>
                 <button id="button_sma-365" class="button_sma">年線</button>
+                <div id="div_notification">
+                    <p>到價通知：<input id="price_notification" type="text" placeholder="請輸入股價" readonly="true"><button id="button_notification">送出</button></p>
+                </div>
             </div>
             <div id="stock_content">
                 <div id="ul_stock_info">

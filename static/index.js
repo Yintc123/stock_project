@@ -2,12 +2,14 @@ console.log("hi");
 
 import * as stock from './stock_module.js';
 import * as trading_view from './tv_stock_chart.js';
+import * as member from './member_module.js';
 import * as search from './search_module.js';
 
 let chart_parameter={};
 const chart_type="index";
 let news_data=null;
 let TAIEX_data=null;
+let member_info=null;
 const news_trademark={
     "Yahoo奇摩新聞":"https://s.yimg.com/cv/apiv2/twfrontpage/logo/Yahoo-TW-desktop-FP@2x.png",
     "Yahoo奇摩股市":"https://s.yimg.com/rz/p/yahoo_finance_zh-Hant-TW_h_p_financev2.png",
@@ -21,12 +23,23 @@ const news_trademark={
     "Anue鉅亨":"https://sfiles.cnyes.cool/fe-common/ccbabd1c/ac25a5abb8fcbdfddb46fa4e9bca6b06.svg",
     "今周刊-在今天看見明天":"https://www.businesstoday.com.tw/lazyweb/web/img/logo2x.png",
     "財訊":"https://www.wealth.com.tw/fbc16f9148c47642c2b0.png",
-    "MoneyDJ理財網":"https://cdn.flipboard.com/dev_O/featured/28833577/logo-250x250.png"
+    "MoneyDJ理財網":"https://cdn.flipboard.com/dev_O/featured/28833577/logo-250x250.png",
+    "蘋果新聞網":"https://staticlayout.appledaily.hk/section-logo/tw/logo_appleonline_w.png",
+    "民視新聞網FTVn":"https://newsimg.ftv.com.tw/img/logo.png",
+    "Apple Daily TW":"https://staticlayout.appledaily.hk/section-logo/tw/logo_appleonline_w.png",
+    "商周財富網":"https://wealth.businessweekly.com.tw/images/bwmoney_logo.png",
+    "新浪台灣":"https://newsimgs.sina.tw/assets/images/event_logo/news_logo.0362ff8a0d.jpg"
 };
 
 
-// // ----------V(View)----------
+// ----------V(View)----------
 async function init(){
+    member_info=await member.get_member();
+    if (member_info["data"]){
+        member.show_nav_member(member_info["data"]);
+        member.show_member_photo(member_info["data"]["photo"]);
+    }
+
     // news_data=await stock.get_stock_news();
     TAIEX_data=await stock.get_stock("TAIEX"); //api分開request避免延遲太久影響使用者體驗
     chart_parameter.chart=trading_view.load_chart("Magnet", TAIEX_data["stock_transaction"], chart_type);
@@ -67,6 +80,13 @@ function create_news_trademark(source, first_news_link){
     if (source=="ETtoday財經雲"){
         trademark.style.backgroundColor="red";
     }
+    if (source=="蘋果新聞網" || source=="Apple Daily TW"){
+        trademark.style.backgroundColor="#0096df";
+    }
+    if (source=="商周財富網"){
+        trademark.style.backgroundColor="black";
+    }
+    
     a_news.appendChild(img_trademark);
     trademark.appendChild(a_news);
     return trademark;
@@ -85,7 +105,7 @@ function create_news_title(data){
     }
     return news_titles;
 }
-// // ----------監聽事件----------
+// ----------監聽事件----------
 const button_reset=document.querySelector("#button_reset");
 
 button_reset.addEventListener("click", () => {

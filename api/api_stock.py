@@ -29,6 +29,10 @@ def get_stock(stock_id):
 
     fm_sdk=fm(stock_id)
     stock["stock_transaction"]=fm_sdk.get_stock_transaction()
+    if not stock["stock_transaction"]:
+        error["message"]="無此股票資訊"
+        return error
+
     if stock_id !="TAIEX":
         stock["stock_data"]=get_last_data_from_dict(fm_sdk.get_stock_data(7))
         stock["stock_data"].update(fm_sdk.get_stock_eps())
@@ -49,7 +53,6 @@ def get_stock_PER(stock_id):
     data={"stock_data":None}
     fm_sdk=fm(stock_id)
     data["stock_data"]=fm_sdk.get_stock_data(10)
-    print(data["stock_data"])
     return data
 
 @app_stock.route("/stock/<stock_id>/EPS", methods=["GET"])

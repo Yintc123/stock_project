@@ -2,6 +2,12 @@ from FinMind.data import DataLoader
 import datetime
 import requests
 import pandas as pd
+from dotenv import load_dotenv, dotenv_values
+
+env='.env' # 執行環境
+load_dotenv(override=True)
+
+finmind_token=dotenv_values(env)["token"]
 
 class fm():
     def __init__(self, stock_id):
@@ -12,7 +18,7 @@ class fm():
         df=self.fin_mind.taiwan_stock_daily(
             stock_id=self.stock_id,
             start_date='1990-01-01',
-            end_date=datetime.date.today() # 今日日期
+            end_date=datetime.date.today(), # 今日日期
         )
 
         df.rename(columns={
@@ -27,7 +33,7 @@ class fm():
         try:
             df=self.fin_mind.taiwan_stock_per_pbr(
                 stock_id=self.stock_id,
-                start_date= datetime.date.today() - datetime.timedelta(days=period) # 今日未收盤，故無今日的per值，需使用昨日日期
+                start_date= datetime.date.today() - datetime.timedelta(days=period), # 今日未收盤，故無今日的per值，需使用昨日日期
             )
 
             df.rename(columns={
@@ -45,7 +51,7 @@ class fm():
                 "dataset": "TaiwanStockFinancialStatements",
                 "data_id": self.stock_id,
                 "start_date": datetime.date.today() - datetime.timedelta(days=365),
-                "token": "", # 參考登入，獲取金鑰
+                "token": finmind_token, # 參考登入，獲取金鑰
             }
             data = requests.get(url, params=parameter)
             data = data.json()
@@ -68,7 +74,7 @@ class fm():
             "data_id":stock_id,
             "start_date": datetime.date.today() - datetime.timedelta(days=3),
             "end_date": datetime.date.today(),
-            "token": "", # 參考登入，獲取金鑰
+            "token": finmind_token, # 參考登入，獲取金鑰
         }
         data = requests.get(url, params=parameter)
         data = data.json()
