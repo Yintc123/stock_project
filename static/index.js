@@ -28,7 +28,8 @@ const news_trademark={
     "民視新聞網FTVn":"https://newsimg.ftv.com.tw/img/logo.png",
     "Apple Daily TW":"https://staticlayout.appledaily.hk/section-logo/tw/logo_appleonline_w.png",
     "商周財富網":"https://wealth.businessweekly.com.tw/images/bwmoney_logo.png",
-    "新浪台灣":"https://newsimgs.sina.tw/assets/images/event_logo/news_logo.0362ff8a0d.jpg"
+    "新浪台灣":"https://newsimgs.sina.tw/assets/images/event_logo/news_logo.0362ff8a0d.jpg",
+    "台灣好新聞":"https://www.taiwanhot.net/imgs/logo.png"
 };
 
 

@@ -35,8 +35,6 @@ app.register_blueprint(app_stock, url_prefix="/api")
 app.register_blueprint(app_member, url_prefix="/api")
 app.register_blueprint(app_email, url_prefix="/api")
 
-
-
 # scheduler.add_job(id="test", func=send_notification, trigger='interval', seconds=8)
 scheduler.add_job(id="test", func=send_notification, trigger='cron', day_of_week='mon-fri', hour='9-14', minute='0-59')
 scheduler.start()

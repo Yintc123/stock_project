@@ -80,31 +80,10 @@ class fm():
         data = data.json()
         data = pd.DataFrame(data['data'])
         d=data.to_dict('records')
-        d1=self.arrange_news(d)
-        return d1
+        return d
 
     def calculate_eps(self, data):
         sum=0
         for index in data:
             sum+=index["value"]
         return sum
-
-    def arrange_news(self, list_news):
-        data={
-            "source":[],
-            "news_data":{}
-        }
-        for news in list_news:
-            if news["source"] not in data["source"]:
-                data["source"].append(news["source"])
-                data["news_data"][news["source"]]=[]
-            if self.is_in_list(news["link"], data["news_data"][news["source"]]):
-                continue
-            data["news_data"][news["source"]].append(news)
-        return data
-
-    def is_in_list(self, value, dict_list):
-        for item in dict_list:
-            if value == item["link"]:
-                return True
-        return False

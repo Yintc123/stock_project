@@ -25,5 +25,5 @@ def send_notification():
     return 
 
 def get_fake_stock_price(price):
-    fake_price=price+round(random.uniform(-price/10000, price/10000), 1)
+    fake_price=price+round(random.uniform(-price/10, price/10), 1)
     return fake_price
