@@ -4,13 +4,13 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, min-height=device-height"/>
         <title>stock</title>
-        <link rel="stylesheet" href="{{url_for('static', filename='body.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='content.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='nav.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='loading.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='frame_member.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='footer.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='member.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/body.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/content.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/nav.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/loading.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/frame_member.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/footer.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/member.css')}}">
     </head>
     <body>
         <div id="frame_member">
@@ -143,7 +143,7 @@
         <div id="container_footer">
             <h4>COPYRIGHT © stock_info</h4>
         </div>
-        <script type="module" src="{{url_for('static', filename='member.js')}}"></script>
+        <script type="module" src="{{url_for('static', filename='js/member.js')}}"></script>
         <script>
             if (!'serviceWorker' in navigator){ // 確認支援service worker
                 console.log("不支援service worker");

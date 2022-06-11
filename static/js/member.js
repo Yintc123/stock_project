@@ -1,10 +1,10 @@
 console.log("hi")
 
-import {url_mode} from './package.js';
+import {url_mode} from './module/package.js';
 
-import * as search from './search_module.js';
-import * as member from './member_module.js';
-import * as email from './email_module.js';
+import * as search from './module/search_module.js';
+import * as member from './module/member_module.js';
+import * as email from './module/email_module.js';
 
 let member_info=null;
 let email_verification_number=null;

@@ -1,9 +1,9 @@
 console.log("hi");
 
-import * as stock from './stock_module.js';
-import * as trading_view from './tv_stock_chart.js';
-import * as member from './member_module.js';
-import * as search from './search_module.js';
+import * as stock from './module/stock_module.js';
+import * as trading_view from './module/tv_stock_chart.js';
+import * as member from './module/member_module.js';
+import * as search from './module/search_module.js';
 
 
 let chart_parameter={};

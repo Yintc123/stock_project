@@ -1,11 +1,11 @@
 console.log("hi");
 
-import * as stock from './stock_module.js';
-import * as trading_view from './tv_stock_chart.js';
-import * as search from './search_module.js'; //搜尋欄的module
-import * as member from './member_module.js';
-import * as message from './message_module.js';
-import {url_mode} from './package.js';
+import * as stock from './module/stock_module.js';
+import * as trading_view from './module/tv_stock_chart.js';
+import * as search from './module/search_module.js'; //搜尋欄的module
+import * as member from './module/member_module.js';
+import * as message from './module/message_module.js';
+import {url_mode} from './module/package.js';
 
 let member_info=null;
 let chart_parameter={};
