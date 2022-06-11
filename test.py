@@ -1,41 +1,49 @@
+import time
 import urllib.request as req
 import pandas as pd
 import bs4
+import twstock
 
-url='https://goodinfo.tw/tw/StockBzPerformance.asp?STOCK_ID=2330'
+# url='https://goodinfo.tw/tw/StockBzPerformance.asp?STOCK_ID=2330'
 
-request=req.Request(url, headers={
-    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36"
-})
+# request=req.Request(url, headers={
+#     "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36"
+# })
 
-with req.urlopen(request) as response:
-    data=response.read().decode('utf-8')
+# with req.urlopen(request) as response:
+#     data=response.read().decode('utf-8')
 
 # with open('test.txt', mode='w', encoding='utf-8') as file:
 #     file.write(data)
 
-root=bs4.BeautifulSoup(data, 'html.parser')
-table=root.find("table", id='tblDetail')
-title=table.find_all('tr')
+# root=bs4.BeautifulSoup(data, 'html.parser')
+# table=root.find("table", id='tblDetail')
+# title=table.find_all('tr')
 
-arr=[]
-needs=[0, 16, 17, 18, 20]
+# arr=[]
+# needs=[0, 16, 17, 18, 20]
 
-for i in title:
-    value=i.find_all("td")
-    a1=[]
-    j=0
-    for v in value:
-        if j in needs:
-            if v.text=="-":
-                a1=[]
-                break
-            a1.append(v.text)
-        j+=1
+# for i in title:
+#     value=i.find_all("td")
+#     a1=[]
+#     j=0
+#     for v in value:
+#         if j in needs:
+#             if v.text=="-":
+#                 a1=[]
+#                 break
+#             a1.append(v.text)
+#         j+=1
     
-    if a1:
-        arr.append(a1)
+#     if a1:
+#         arr.append(a1)
 
-print(arr)
+# print(arr)
 
-
+twstock.realtime.mock = False
+stock=twstock.realtime.get(['2330', '6223'])
+time_stamp=stock["2330"]["timestamp"]
+struct_time=time.localtime(time_stamp)
+timeString = time.strftime("%H", struct_time) # 轉成字串
+print(time_stamp)
+print(timeString)

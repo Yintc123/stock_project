@@ -1,6 +1,7 @@
 #div_member_button{
     /* border:1px solid; */
     width:100%;
+    margin-top:20px;
 }
 
 #div_member_button ul{
@@ -15,6 +16,7 @@
     width:150px;
     height:50px;
     font-size:20px;
+    border-radius: 5px;
 }
 
 #frame_member_info{
@@ -22,6 +24,11 @@
     font-size:16px;
     /* border:1px solid; */
     width:500px;
+    display:none;
+}
+
+#div_member_photo_frame{
+    position:relative;
 }
 
 #div_photo{
@@ -31,11 +38,30 @@
     border:1px solid;
     overflow: hidden;
     border-radius: 150px;
+    position:relative;
 }
 
-#div_photo img{
+#img_member_photo{
     object-fit: cover;
     width:100%;
+}
+
+#img_uploader{
+    position:absolute;
+    left:50px;
+    top:300px;
+}
+
+#changing_photo{
+    width:40px;
+    height:40px;
+    border-radius: 5px;
+    border:1px solid;
+    position:absolute;
+    left:50%;
+    bottom:5px;
+    transform:translate(-50%, 50%);
+    cursor:pointer;
 }
 
 #div_member_info{
@@ -175,4 +201,34 @@
 
 .li_renew_button{
     display:none;
+}
+
+#frame_favorite{
+    /* border:1px solid; */
+    font-size:16px;
+    margin-top:30px;
+    text-align: center;
+    /* display: none; */
+}
+
+#table_favorite a{
+    text-decoration: none;
+}
+
+#table_favorite td{
+    padding:5px;
+    text-align: center;
+}
+
+.yellow_star{
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position:center ;
+    cursor:pointer;
+}
+
+#frame_favorite p{
+    font-size:10px;
+    padding:0px;
+    margin:0px;
 }

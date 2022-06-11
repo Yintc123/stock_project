@@ -5,6 +5,7 @@ import * as trading_view from './tv_stock_chart.js';
 import * as member from './member_module.js';
 import * as search from './search_module.js';
 
+
 let chart_parameter={};
 const chart_type="index";
 let news_data=null;
@@ -29,7 +30,10 @@ const news_trademark={
     "Apple Daily TW":"https://staticlayout.appledaily.hk/section-logo/tw/logo_appleonline_w.png",
     "商周財富網":"https://wealth.businessweekly.com.tw/images/bwmoney_logo.png",
     "新浪台灣":"https://newsimgs.sina.tw/assets/images/event_logo/news_logo.0362ff8a0d.jpg",
-    "台灣好新聞":"https://www.taiwanhot.net/imgs/logo.png"
+    "台灣好新聞":"https://www.taiwanhot.net/imgs/logo.png",
+    "MSN":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/2015_MSN_logo.svg/1200px-2015_MSN_logo.svg.png",
+    "工商時報":"https://cteecors.azureedge.net/wp-content/uploads/2020/02/10-00642-005.png",
+    "翻爆":"https://imgv.azureedge.net/wpupload/2019/04/logo.jpg"
 };
 
 
@@ -47,6 +51,7 @@ async function init(){
 
     news_data=await stock.get_stock_news(); //api分開request避免延遲太久影響使用者體驗
     console.log(news_data)
+    reorder_news_data(news_data)
     create_news_columns(news_data);
     search.hide_loading();
 }
@@ -115,6 +120,16 @@ button_reset.addEventListener("click", () => {
 })
 
 // ----------M(Model)----------
-
+function reorder_news_data(news_data){
+    for(let i=0;i<news_data["source"].length;i++){
+        for(let j=i+1;j<news_data["source"].length;j++){
+            if(news_data["news_data"][news_data["source"][i]].length<news_data["news_data"][news_data["source"][j]].length){
+                let temp=news_data["source"][i];
+                news_data["source"][i]=news_data["source"][j];
+                news_data["source"][j]=temp;
+            }
+        }
+    }
+}
 // ----------run----------
 init();

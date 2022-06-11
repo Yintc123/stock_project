@@ -23,7 +23,7 @@
                 <div id="div_input_member">
                     <input id="input_username" type="text" placeholder="請輸入使用者名稱">
                     <input id="input_email" type="text" placeholder="請輸入email">
-                    <input id="input_password" type="text" placeholder="請輸入密碼">
+                    <input id="input_password" type="password" placeholder="請輸入密碼">
                 </div>
                 <div id="div_button_member">
                     <button id="button_member">登入帳戶</button>
@@ -76,7 +76,6 @@
                     <span id="stock_name">股票名稱</span>
                     <img class="star" id="white_star" src="/static/icon/white_star.png">
                     <img class="star" id="yellow_star" src="/static/icon/yellow_star.png">
-                    <button id="test">test</button>
                 </h1>
             </div>
             <div id="container_chart"></div>
@@ -117,11 +116,28 @@
                 <div id="div_stock_info">
                 </div>
             </div>
+            <div id="div_message_board">
+                <div class="div_board">
+                    <div id="div_message_member_photo" class="message_member_photo"></div>
+                    <div id="div_typing" placeholder="分享您的看法!" contenteditable="true"></div>
+                </div>
+                <div id="div_message_button">
+                    <div id="div_message_button_frame">
+                        <ul id="ul_message_button">
+                            <li><button id="button_clear">清空</button></li>
+                            <li><button id="button_message_cancel">取消</button></li>
+                            <li><button id="button_message_submit">送出</button></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="div_message_column"></div>
+            </div>
         </div>
         <div id="container_footer">
             <h4>COPYRIGHT © stock_info</h4>
         </div>
         <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>-->
         <script type="module" src="{{url_for('static', filename='stock.js')}}"></script>
     </body>
 </html>

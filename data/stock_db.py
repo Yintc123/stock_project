@@ -33,3 +33,24 @@ class stock_info_db():
             self.close() # 出現error直接關閉連線，避免佔用資料庫資源
             print("error in function, get_stock()")
             return None
+
+    def new_get_stock_history(self, stock_id):
+        try:
+            query="SELECT*FROM stock_history WHERE stock_id=%s"
+            self.connection()
+            self.cur.execute(query %stock_id)
+            data=self.cur.fetchall()
+            self.close()
+            return data
+        except:
+            self.close() # 出現error直接關閉連線，避免佔用資料庫資源
+            print("error in function, get_stock()")
+            return None
+
+    def get_stock_name(self, stock_id):
+            query="SELECT*FROM stock WHERE stock_id=%s"
+            self.connection()
+            self.cur.execute(query %stock_id)
+            data=self.cur.fetchone()
+            self.close()
+            return data

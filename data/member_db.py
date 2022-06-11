@@ -38,7 +38,7 @@ class member_db():
             return self.response_text(1, message)
 
     def get_member(self, email, id):
-        # try:
+        try:
             column=None
             query_get_member=None
             if email:
@@ -53,14 +53,14 @@ class member_db():
             self.close()
             print("Success in get_member.")
             return member_info 
-        # except:
-        #     self.close()
-        #     print("error in get_member.")
-        #     message="500 internal database error."
-        #     return self.response_text(1, message)
+        except:
+            self.close()
+            print("error in get_member.")
+            message="500 internal database error."
+            return self.response_text(1, message)
 
     def renew_member(self, user_id, username, email, password, photo, email_status):
-        # try:
+        try:
             member_info={
                 "email":email,
                 "username":username,
@@ -83,11 +83,26 @@ class member_db():
             self.conn.commit()
             self.close()        
             return self.response_text(0, "會員資訊更新成功")
-        # except:
-        #     self.close()
-        #     print("error in renew_member.")
-        #     message="500 internal database error."
-        #     return self.response_text(1, message)
+        except:
+            self.close()
+            print("error in renew_member.")
+            message="500 internal database error."
+            return self.response_text(1, message)
+
+    def add_push_token(self, user_id, token):
+        try:
+            query_add_price="UPDATE member set push_token=%s WHERE id=%s"
+            self.connection()
+            self.cur.execute(query_add_price, (token, user_id))
+            self.conn.commit()
+            self.close()
+            print("Success in add_push_token.")
+            return self.response_text(0, "token紀錄完成")
+        except:
+            self.close()
+            print("error in add_push_token.")
+            message="500 internal database error."
+            return self.response_text(1, message)
 
     def get_favorite_stock(self, user_id):
         try:

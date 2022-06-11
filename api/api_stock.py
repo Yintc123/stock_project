@@ -1,3 +1,4 @@
+from re import I
 from flask import *
 from dotenv import *
 import jwt
@@ -18,19 +19,18 @@ app_stock=Blueprint("api_stock", __name__)
 
 @app_stock.route("/stocks/news", methods=["GET"])
 def get_stocks_news():
-    # token_member=request.cookies.get("token_member") # 判斷是否登入
-    # if not token_member:
-    #     error["message"]="請登入後，再添加股票至我的最愛"
-    #     return error
-    # payload_member=jwt.decode(token_member, member_key, algorithms="HS256")
+    stock_id=["2330", "2317", "2454", "2412", "6505"]
+    token_member=request.cookies.get("token_member") # 判斷是否登入
+    if token_member:
+        payload_member=jwt.decode(token_member, member_key, algorithms="HS256")
+        stock_id=get_stock_id_from_token(payload_member["data"]["favorite"])
 
-    stock_id={"2330", "2317", "2454", "2412", "6505"}
     data={}
     temp=[]
     fm_sdk=fm(None)
     for stock in stock_id:
         temp+=fm_sdk.get_stock_news(stock)
-    print(temp)
+    # print(temp)
     data=arrange_news(temp)
     return data 
 
@@ -42,20 +42,27 @@ def get_stock(stock_id):
     }
 
     fm_sdk=fm(stock_id)
+    stk=stk_db()
     stock["stock_transaction"]=fm_sdk.get_stock_transaction()
+    # stock["stock_transaction"]=stk.new_get_stock_history(stock_id)
     if not stock["stock_transaction"]:
         error["message"]="無此股票資訊"
         return error
-
+    # print(stock["stock_transaction"])
     if stock_id !="TAIEX":
         stock["stock_data"]=get_last_data_from_dict(fm_sdk.get_stock_data(7))
         stock["stock_data"].update(fm_sdk.get_stock_eps())
+        # stock["stock_data"]=fm_sdk.get_stock_eps()
 
-        stk=stk_db()
+        # last_transaction_data=len(stock["stock_transaction"])-1
         data=stk.get_stock(stock_id)
         if data:
             data=data[0]
             stock["stock_data"].update({
+                # "PER":stock["stock_transaction"][last_transaction_data]["PER"],
+                # "PBR":stock["stock_transaction"][last_transaction_data]["PBR"],
+                # "dividend-yield":stock["stock_transaction"][last_transaction_data]["dividend_yield"],
+                # "date":stock["stock_transaction"][last_transaction_data]["time"],
                 "ROE":data["ROE"],
                 "stock_name":data["stock_name"]
             })
@@ -83,6 +90,14 @@ def get_last_data_from_dict(data):
     return data[len(data)-1]
 
 
+def get_stock_id_from_token(favorite_list):
+    stock_list=[]
+    if not favorite_list:
+        stock_list=["2330", "2317", "2454", "2412", "6505"]
+        return stock_list
+    for favorite in favorite_list:
+        stock_list.append(favorite["stock_id"])
+    return stock_list
 
 def arrange_news(list_news):
     data={
