@@ -15,11 +15,11 @@ class fm():
         self.fin_mind=DataLoader()
 
     def get_stock_transaction(self):
-        date='2022-01-08'
+        # date='2022-01-08'
         df=self.fin_mind.taiwan_stock_daily(
             stock_id=self.stock_id,
-            start_date=date,
-            # start_date='1990-01-01',
+            # start_date=date,
+            start_date='1990-01-01',
             end_date=datetime.date.today(), # 今日日期
         )
 
@@ -74,7 +74,7 @@ class fm():
         parameter = {
             "dataset": "TaiwanStockNews",
             "data_id":stock_id,
-            "start_date": datetime.date.today() - datetime.timedelta(days=3),
+            "start_date": datetime.date.today() - datetime.timedelta(days=1),
             "end_date": datetime.date.today(),
             "token": finmind_token, # 參考登入，獲取金鑰
         }

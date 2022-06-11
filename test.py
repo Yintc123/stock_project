@@ -4,46 +4,63 @@ import pandas as pd
 import bs4
 import twstock
 
-# url='https://goodinfo.tw/tw/StockBzPerformance.asp?STOCK_ID=2330'
+stock="2454"
 
-# request=req.Request(url, headers={
-#     "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36"
-# })
+stock_data={
+    "stock_id":stock,
+    "stock_name":None,
+    "stock_data":[]
+}
 
-# with req.urlopen(request) as response:
-#     data=response.read().decode('utf-8')
+url='https://goodinfo.tw/tw/StockBzPerformance.asp?STOCK_ID='+stock
 
-# with open('test.txt', mode='w', encoding='utf-8') as file:
-#     file.write(data)
+request=req.Request(url, headers={
+    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36"
+})
 
-# root=bs4.BeautifulSoup(data, 'html.parser')
-# table=root.find("table", id='tblDetail')
-# title=table.find_all('tr')
+with req.urlopen(request) as response:
+    data=response.read().decode('utf-8')
 
-# arr=[]
-# needs=[0, 16, 17, 18, 20]
+root=bs4.BeautifulSoup(data, 'html.parser')
 
-# for i in title:
-#     value=i.find_all("td")
-#     a1=[]
-#     j=0
-#     for v in value:
-#         if j in needs:
-#             if v.text=="-":
-#                 a1=[]
-#                 break
-#             a1.append(v.text)
-#         j+=1
+# if not root:
+#     print("No data")
+#     continue
+
+table=root.find("table", id='tblDetail') # 選取特定table
+rows=table.find_all('tr') # 選取table內的tr
+
+stock_name=root.find("title")
+stock_data["stock_name"]=stock_name.string.replace(" ", "").split(")")[1].split("歷")[0]
+arr=[]
+needs=[0, 16, 17, 18, 20] # 需要數據的index
+
+for row in rows:
+    data=row.find_all("td") # 選取tr內的td
+    a1=[] # 創造一個list暫存數據
+    j=0
+    for value in data:
+        if j in needs:
+            if value.text=="-" or value.text=="年度" or value.text=="收盤": # 當數據的值為-，即為此row數據不完全
+                a1=[] # 清空a1
+                break # 跳出此迴圈
+            a1.append(value.text)
+        j+=1
     
-#     if a1:
-#         arr.append(a1)
+    if a1: # a1有數據，將a1數據加入arr中
+        arr.append(a1)
 
-# print(arr)
+stock_data["stock_data"]=arr
 
-twstock.realtime.mock = False
-stock=twstock.realtime.get(['2330', '6223'])
-time_stamp=stock["2330"]["timestamp"]
-struct_time=time.localtime(time_stamp)
-timeString = time.strftime("%H", struct_time) # 轉成字串
-print(time_stamp)
-print(timeString)
+for data in reversed(stock_data["stock_data"]): # 反轉列表從舊到新
+    print(data)
+    query="INSERT INTO stock_eps_roe (stock_id, year, ROE, ROA, EPS, BPS) VALUES(%s, %s, %s, %s, %s, %s)"
+    mycursor.execute(query, (stock_data["stock_id"], data[0], data[1], data[2], data[3], data[4]))
+    print("done!")
+
+print("rest 20s")
+# break
+time.sleep(30)
+
+mydb.commit()
+

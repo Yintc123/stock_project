@@ -24,9 +24,11 @@ mycursor=mydb.cursor()
 #     print(db)
 
 # mycursor.execute("CREATE DATABASE stock_project")
+# mycursor.execute("DROP TABLE stock_eps_roe")
 # mycursor.execute("DROP TABLE stock_history")
 # mycursor.execute("DROP TABLE favorite")
 # mycursor.execute("DROP TABLE stock_eps_roe")
+# mycursor.execute("DROP TABLE message_board")
 # mycursor.execute("DROP TABLE stock")
 
 # mycursor.execute("DROP TABLE member")
@@ -34,19 +36,21 @@ mycursor=mydb.cursor()
 
 # ---stock table---
 # mycursor.execute("CREATE TABLE stock (stock_id VARCHAR(256) PRIMARY KEY NOT NULL, stock_name VARCHAR(255) NOT NULL)")
+# mycursor.execute("ALTER TABLE stock ADD listed VARCHAR(255)")
+# mycursor.execute("ALTER TABLE stock ADD industry VARCHAR(255)")
 # mycursor.execute("ALTER TABLE stock ADD time DATETIME NOT NULL DEFAULT NOW()")
 
 # ---stock_history table---
 # mycursor.execute("CREATE TABLE stock_history (id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT, stock_id VARCHAR(256) NOT NULL)")
-# mycursor.execute("ALTER TABLE stock_history ADD open INT NOT NULL")
-# mycursor.execute("ALTER TABLE stock_history ADD low INT NOT NULL")
-# mycursor.execute("ALTER TABLE stock_history ADD high INT NOT NULL")
-# mycursor.execute("ALTER TABLE stock_history ADD close INT NOT NULL")
-# mycursor.execute("ALTER TABLE stock_history ADD volume INT NOT NULL")
-# mycursor.execute("ALTER TABLE stock_history ADD PER INT NOT NULL")
-# mycursor.execute("ALTER TABLE stock_history ADD dividend_yield INT NOT NULL")
-# mycursor.execute("ALTER TABLE stock_history ADD PBR INT NOT NULL")
-# mycursor.execute("ALTER TABLE stock_history ADD EPS INT NOT NULL")
+# mycursor.execute("ALTER TABLE stock_history ADD open FLOAT NOT NULL")
+# mycursor.execute("ALTER TABLE stock_history ADD low FLOAT NOT NULL")
+# mycursor.execute("ALTER TABLE stock_history ADD high FLOAT NOT NULL")
+# mycursor.execute("ALTER TABLE stock_history ADD close FLOAT NOT NULL")
+# mycursor.execute("ALTER TABLE stock_history ADD volume FLOAT NOT NULL")
+# mycursor.execute("ALTER TABLE stock_history ADD PER FLOAT NOT NULL")
+# mycursor.execute("ALTER TABLE stock_history ADD dividend_yield FLOAT NOT NULL")
+# mycursor.execute("ALTER TABLE stock_history ADD PBR FLOAT NOT NULL")
+# mycursor.execute("ALTER TABLE stock_history ADD EPS FLOAT NOT NULL")
 # mycursor.execute("ALTER TABLE stock_history ADD time VARCHAR(255) NOT NULL")
 # mycursor.execute("ALTER TABLE stock_history ADD FOREIGN KEY (stock_id) REFERENCES stock(stock_id)")
 
@@ -88,7 +92,7 @@ mycursor=mydb.cursor()
 # mycursor.execute("ALTER TABLE member ADD photo VARCHAR(255)")
 # mycursor.execute("ALTER TABLE member ADD creation_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
 # mycursor.execute("ALTER TABLE member ADD email_status INT")
-# mycursor.execute("ALTER TABLE member ADD push_token VARCHAR(65000)")
+# mycursor.execute("ALTER TABLE member ADD push_token TEXT(65000)")
 
 # mycursor.execute("ALTER TABLE member DROP push_token")
 
@@ -99,10 +103,13 @@ mycursor=mydb.cursor()
 # ---favorite table---
 # mycursor.execute("CREATE TABLE favorite (id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT, user_id BIGINT NOT NULL)")
 # mycursor.execute("ALTER TABLE favorite ADD stock_id VARCHAR(256) NOT NULL")
-# mycursor.execute("ALTER TABLE favorite ADD price BIGINT")
+# mycursor.execute("ALTER TABLE favorite ADD price FLOAT")
 # mycursor.execute("ALTER TABLE favorite ADD creation_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
 # mycursor.execute("ALTER TABLE favorite ADD FOREIGN KEY (user_id) REFERENCES member(id)")
 # mycursor.execute("ALTER TABLE favorite ADD FOREIGN KEY (stock_id) REFERENCES stock(stock_id)")
+
+# mycursor.execute("ALTER TABLE favorite DROP price")
+
 
 
 # mycursor.execute("DESCRIBE favorite") # 各column的屬性

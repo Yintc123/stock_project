@@ -19,7 +19,7 @@ app_stock=Blueprint("api_stock", __name__)
 
 @app_stock.route("/stocks/news", methods=["GET"])
 def get_stocks_news():
-    stock_id=["2330", "2317", "2454", "2412", "6505"]
+    stock_id=["2330", "2317", "2454"] # ["2330", "2317", "2454", "2412", "6505"]
     token_member=request.cookies.get("token_member") # 判斷是否登入
     if token_member:
         payload_member=jwt.decode(token_member, member_key, algorithms="HS256")
@@ -55,16 +55,16 @@ def get_stock(stock_id):
         # stock["stock_data"]=fm_sdk.get_stock_eps()
 
         # last_transaction_data=len(stock["stock_transaction"])-1
-        data=stk.get_stock(stock_id)
-        if data:
-            data=data[0]
+        stock_data=stk.get_stock(stock_id)
+        eps_roe=stk.get_eps_roe(stock_id)
+        if stock_data:
             stock["stock_data"].update({
                 # "PER":stock["stock_transaction"][last_transaction_data]["PER"],
                 # "PBR":stock["stock_transaction"][last_transaction_data]["PBR"],
                 # "dividend-yield":stock["stock_transaction"][last_transaction_data]["dividend_yield"],
                 # "date":stock["stock_transaction"][last_transaction_data]["time"],
-                "ROE":data["ROE"],
-                "stock_name":data["stock_name"]
+                "ROE":eps_roe[0]["ROE"],
+                "stock_name":stock_data["stock_name"]
             })
 
     return stock
@@ -80,9 +80,8 @@ def get_stock_PER(stock_id):
 def get_stock_EPS(stock_id):
     data={"stock_data":None}
     stk=stk_db()
-    d=stk.get_stock(stock_id)
-    reversed_data=list(reversed(d)) # 反轉list使各回傳資料順序一致
-    data["stock_data"]=reversed_data
+    stock_eps_roe=stk.get_eps_roe(stock_id)
+    data["stock_data"]=stock_eps_roe
     return data
 
 def get_last_data_from_dict(data):

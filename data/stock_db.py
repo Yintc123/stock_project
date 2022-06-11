@@ -23,7 +23,22 @@ class stock_info_db():
 
     def get_stock(self, stock_id):
         try:
-            query="SELECT*FROM stock_info WHERE stock_id=%s"
+            # query="SELECT*FROM stock_info WHERE stock_id=%s"
+            query="SELECT*FROM stock WHERE stock_id=%s"
+            self.connection()
+            self.cur.execute(query %stock_id)
+            data=self.cur.fetchone()
+            self.close()
+            return data
+        except:
+            self.close() # 出現error直接關閉連線，避免佔用資料庫資源
+            print("error in function, get_stock()")
+            return None
+    
+    def get_eps_roe(self, stock_id):
+        try:
+            # query="SELECT*FROM stock_info WHERE stock_id=%s"
+            query="SELECT*FROM stock_eps_roe WHERE stock_id=%s"
             self.connection()
             self.cur.execute(query %stock_id)
             data=self.cur.fetchall()
@@ -33,6 +48,7 @@ class stock_info_db():
             self.close() # 出現error直接關閉連線，避免佔用資料庫資源
             print("error in function, get_stock()")
             return None
+
 
     def new_get_stock_history(self, stock_id):
         try:

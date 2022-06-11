@@ -25,6 +25,9 @@
                     <input id="input_password" type="password" placeholder="請輸入密碼">
                 </div>
                 <div id="div_button_member">
+                    <div id="loading_button">
+                        <div class="lds-circle"><div></div></div>
+                    </div>
                     <button id="button_member">登入帳戶</button>
                 </div>
                 <div id="div_span_member">
@@ -145,10 +148,11 @@
             if (!'serviceWorker' in navigator){ // 確認支援service worker
                 console.log("不支援service worker");
             }
-            console.log("支援service worker!");
-            navigator.serviceWorker.register('/sw.js', {scope:"/"}) //註冊service worker
-            .then(reg => console.log('SW registered!', reg))
-            .catch(err => console.log('Error!', err));    
+            window.addEventListener('load', () => { //頁面載入完成再註冊
+                navigator.serviceWorker.register('/sw.js', {scope:"/"}) //註冊service worker
+                .then(reg => console.log('SW registered!', reg))
+                .catch(err => console.log('Error!', err)); 
+            });   
         </Script>
     </body>
 </html>

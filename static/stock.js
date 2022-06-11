@@ -34,6 +34,8 @@ async function init(){
     if(transaction_data.error){
         window.location=url_mode["url_stock"]; //查無該股票跳回首頁
     }
+    // console.log(transaction_data)
+
     show_stock_title(transaction_data["stock_data"]);
     show_stock_info(transaction_data["stock_data"]);
     chart_parameter.chart=trading_view.load_chart("Normal", transaction_data["stock_transaction"], chart_type);
@@ -135,7 +137,7 @@ function show_price_notification(email_status, favorite){
     // const price_notification=document.querySelector("#price_notification");
     div_notification.style.display="inline-block";
     // price_notification.readOnly=true;
-    if(email_status==1 && check_favorite(favorite)){
+    if(/*email_status==1 &&*/ check_favorite(favorite)){
         // price_notification.readOnly=false;
         // price_notification.value=get_price(favorite);
         input_price(1, get_price(favorite));
@@ -149,9 +151,11 @@ function input_price(flag, price){
     //flag=0，反之
     const price_notification=document.querySelector("#price_notification");
     if(flag==1){
+        price_notification.placeholder="請輸入股價";
         price_notification.readOnly=false;
         price_notification.value=price;
     }else{
+        price_notification.placeholder="請加入關注";
         price_notification.readOnly=true;
         price_notification.value="";
     }
@@ -294,20 +298,23 @@ for (let i=0;i<li_block2.length;i++){
 
 white_star.addEventListener("click", async () => {
     show_favorite_star(1);
+    input_price(1, "");
     let response=await member.add_favorite_stock(member_info["data"]["id"], stk_id);
-    if (member_info["data"]["email_status"]==1){
-        console.log("123")
-        input_price(1, "");
-    }
+    // if (member_info["data"]["email_status"]==1){
+    //     input_price(1, "");
+    // }
+    // input_price(1, "");
     console.log(response);
 })
 
 yellow_star.addEventListener("click", async () => {
     show_favorite_star(0);
+    input_price(0, "");
     let response=await member.delete_favorite_stock(member_info["data"]["id"], stk_id);
-    if (member_info["data"]["email_status"]==1){
-        input_price(0, "");
-    }
+    // if (member_info["data"]["email_status"]==1){
+    //     input_price(0, "");
+    // }
+    // input_price(0, "");
     console.log(response);
 })
 
@@ -317,7 +324,7 @@ button_notification.addEventListener("click", async () => {
         console.log("請將此股票添加至我的最愛");
         return;
     }
-    console.log(price_notification.value);
+    alert("設定成功!");
     let response=await member.add_price_notification(member_info["data"]["id"], stk_id, price_notification.value);
     console.log(response);
 })
@@ -335,6 +342,10 @@ button_message_submit.addEventListener("click", async () => {
 })
 
 div_typing.addEventListener("click", () => {
+    if (!member_info["data"]){
+        member_center.click();
+        return;
+    }
     show_message_button(1);
 })
 

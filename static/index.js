@@ -33,7 +33,9 @@ const news_trademark={
     "台灣好新聞":"https://www.taiwanhot.net/imgs/logo.png",
     "MSN":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/2015_MSN_logo.svg/1200px-2015_MSN_logo.svg.png",
     "工商時報":"https://cteecors.azureedge.net/wp-content/uploads/2020/02/10-00642-005.png",
-    "翻爆":"https://imgv.azureedge.net/wpupload/2019/04/logo.jpg"
+    "翻爆":"https://imgv.azureedge.net/wpupload/2019/04/logo.jpg",
+    "鉅亨網":"https://sfiles.cnyes.cool/fe-common/ccbabd1c/ac25a5abb8fcbdfddb46fa4e9bca6b06.svg",
+    "TechNews 科技新報":"https://technews.tw/wp-content/themes/twentytwelve/images/finance-logo.gif"
 };
 
 

@@ -218,3 +218,8 @@
     position:absolute;
     right:5px;
 }
+
+/* 清空按鈕 */
+#button_clear{
+    display:none;
+}

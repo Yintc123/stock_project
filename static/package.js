@@ -22,11 +22,14 @@ const url={
         "url_api_member":"https://"+domain_name+"/api/member",
         "url_api_member_id":"https://"+domain_name+"/api/member/",
         "url_api_email":"https://"+domain_name+"/api/email",
+        "url_api_message":"https://"+domain_name+"/api/message/",
+        "url_api_subscription":"https://"+domain_name+"/api/subscription",
+        "url_api_push":"https://"+domain_name+"/api/push"
     }
 };
 
-// const env="prod";
-const env="dev";
+const env="prod";
+// const env="dev";
 
 export const url_mode=url[env];
 export default url_mode;

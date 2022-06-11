@@ -79,6 +79,7 @@
     /* border:1px solid; */
     display:flex;
     justify-content: center;
+    position:relative;
 }
 
 #div_button_member button{

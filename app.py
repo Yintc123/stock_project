@@ -53,6 +53,6 @@ app.register_blueprint(app_webpush, url_prefix="/api")
 #         socket.send(i)
 #         i+=1
 
-# app.debug=True
+app.debug=True
 app.run(host=dotenv_values(env)["app_host"], port=5000)
 # socket.run(app, host=dotenv_values(env)["app_host"], port=5000, debug=True)

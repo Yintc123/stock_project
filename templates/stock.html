@@ -26,6 +26,9 @@
                     <input id="input_password" type="password" placeholder="請輸入密碼">
                 </div>
                 <div id="div_button_member">
+                    <div id="loading_button">
+                        <div class="lds-circle"><div></div></div>
+                    </div>
                     <button id="button_member">登入帳戶</button>
                 </div>
                 <div id="div_span_member">
@@ -72,7 +75,7 @@
         <div id="container_content">
             <div id="div_stock_title">
                 <h1>
-                    <span id="stock_id">0050</span> 
+                    <span id="stock_id">股票代號</span> 
                     <span id="stock_name">股票名稱</span>
                     <img class="star" id="white_star" src="/static/icon/white_star.png">
                     <img class="star" id="yellow_star" src="/static/icon/yellow_star.png">
@@ -93,23 +96,23 @@
                     <ul>
                         <li class="li_block" id="li_PER">
                             <div class="block_stock_info">本益比</div>
-                            <div id="block_PER" class="block">100</div>
+                            <div id="block_PER" class="block">waiting...</div>
                         </li>
                         <li class="li_block" id="li_dividend-yield">
                             <div class="block_stock_info">現金殖利率(%)</div>
-                            <div id="block_dividend-yield" class="block">100</div>
+                            <div id="block_dividend-yield" class="block">waiting...</div>
                         </li>
                         <li class="li_block" id="li_PBR">
                             <div class="block_stock_info">股價淨值比</div>
-                            <div id="block_PBR" class="block">100</div>
+                            <div id="block_PBR" class="block">waiting...</div>
                         </li>
                         <li class="li_block2" id="li_EPS">
                             <div class="block_stock_info">近4季EPS</div>
-                            <div id="block_EPS" class="block">100</div>
+                            <div id="block_EPS" class="block">waiting...</div>
                         </li>
                         <li class="li_block2" id="li_ROE">
                             <div class="block_stock_info">ROE(%)</div>
-                            <div id="block_ROE" class="block">100</div>
+                            <div id="block_ROE" class="block">waiting...</div>
                         </li>
                     </ul>
                 </div>

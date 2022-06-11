@@ -132,6 +132,15 @@ function show_div_signIn_frame(swch){
     div_signIn_frame.style.display="inline-block";
 }
 
+function show_loading_button(flag){
+    const loading_button=document.querySelector("#loading_button");
+    if(flag==0){
+        loading_button.style.display="none";
+        return;
+    }
+    loading_button.style.display="flex";
+}
+
 export function show_member_photo(photo){
     const member_photo=document.querySelectorAll(".member_photo");
     let photo_src="/static/icon/default_member.jpg";
@@ -181,6 +190,7 @@ for (let i=0;i<close_frame_member.length;i++){
 
 
 button_member.addEventListener("click", async() => {
+    show_loading_button(1);
     const input_username=document.querySelector("#input_username");
     const input_email=document.querySelector("#input_email");
     const input_password=document.querySelector("#input_password");
@@ -192,6 +202,7 @@ button_member.addEventListener("click", async() => {
         response=await signIn_member(email, password);
         change_member_sign_message(null, 0);
         change_member_sucess_error_message(response, 1);
+        show_loading_button(0);
         if (response["ok"]){
             window.location=window.location.href;
         }
@@ -200,6 +211,7 @@ button_member.addEventListener("click", async() => {
     response=await signUp_member(username, email, password);
     change_member_sign_message(null, 0);
     change_member_sucess_error_message(response, 1);
+    show_loading_button(0);
     return;
 })
 
