@@ -370,7 +370,7 @@ button_web_push_cancel.addEventListener("click", async () => {
     let form=new FormData();
     let user_id=member_info["data"]["id"];
     form.append("user_id", user_id);
-    let url="http://127.0.0.1:5000/api/push";
+    let url=url_mode["url_api_push"];
     const response = await fetch(url, {
         method: "POST",
         body:form

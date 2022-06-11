@@ -12,6 +12,7 @@ const url={
         "url_api_email":"http://127.0.0.1:5000/api/email",
         "url_api_message":"http://127.0.0.1:5000/api/message/",
         "url_api_subscription":"http://127.0.0.1:5000/api/subscription",
+        "url_api_push":"http://127.0.0.1:5000/api/push"
     },
     "prod":{
         "url_stock":"https://"+domain_name+"/",
