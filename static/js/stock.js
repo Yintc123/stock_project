@@ -30,26 +30,47 @@ async function init(){
     }
     console.log(member_info)
 
-    transaction_data = await stock.get_stock(stk_id); //api分開request避免延遲太久影響使用者體驗
-    if(transaction_data.error){
-        window.location=url_mode["url_stock"]; //查無該股票跳回首頁
-    }
+    stock.get_stock(stk_id).then(resp => {
+        transaction_data=resp;
+        if(transaction_data.error){
+            window.location=url_mode["url_stock"]; //查無該股票跳回首頁
+        }
+        console.log(transaction_data)
+        show_stock_title(transaction_data["stock_data"]);
+        show_stock_info(transaction_data["stock_data"]);
+        chart_parameter.chart=trading_view.load_chart("Normal", transaction_data["stock_transaction"], chart_type);
+    }).then(()=>{
+        stock.get_stock_specific_data(stk_id, "PER").then(resp => {
+            spec_data=resp;
+            show_stock_info_table(spec_data["stock_data"], transaction_data, "PER");
+        }).then(() => {
+            search.hide_loading();
+        })
+    })
+    // transaction_data = await stock.get_stock(stk_id); //api分開request避免延遲太久影響使用者體驗
+    // if(transaction_data.error){
+    //     window.location=url_mode["url_stock"]; //查無該股票跳回首頁
+    // }
+    // console.log(transaction_data)
+    // show_stock_title(transaction_data["stock_data"]);
+    // show_stock_info(transaction_data["stock_data"]);
+    // chart_parameter.chart=trading_view.load_chart("Normal", transaction_data["stock_transaction"], chart_type);
+
     // console.log(transaction_data)
 
-    show_stock_title(transaction_data["stock_data"]);
-    show_stock_info(transaction_data["stock_data"]);
-    chart_parameter.chart=trading_view.load_chart("Normal", transaction_data["stock_transaction"], chart_type);
-
-    // console.log(transaction_data)
-
-    spec_data = await stock.get_stock_specific_data(stk_id, "PER"); //api分開request避免延遲太久影響使用者體驗
-    show_stock_info_table(spec_data["stock_data"], transaction_data, "PER");
-
-    let message_data=await message.get_message(stk_id);
-    show_message_column(message_data["data"])
-    console.log(message_data);
     
-    search.hide_loading();
+    // spec_data = await stock.get_stock_specific_data(stk_id, "PER"); //api分開request避免延遲太久影響使用者體驗
+    // show_stock_info_table(spec_data["stock_data"], transaction_data, "PER");
+
+    message.get_message(stk_id).then(resp => {
+        let message_data=resp;
+        show_message_column(message_data["data"]);
+    })
+    // let message_data=await message.get_message(stk_id);
+    // show_message_column(message_data["data"]);
+    // console.log(message_data);
+    
+    // search.hide_loading();
 }
 
 function show_stock_info(t_data){

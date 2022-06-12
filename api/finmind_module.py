@@ -2,6 +2,7 @@ from FinMind.data import DataLoader
 import datetime
 import requests
 import pandas as pd
+import threading
 from dotenv import load_dotenv, dotenv_values
 
 env='.env' # 執行環境
@@ -74,7 +75,7 @@ class fm():
         parameter = {
             "dataset": "TaiwanStockNews",
             "data_id":stock_id,
-            "start_date": datetime.date.today() - datetime.timedelta(days=1),
+            "start_date": datetime.date.today() - datetime.timedelta(days=3),
             "end_date": datetime.date.today(),
             "token": finmind_token, # 參考登入，獲取金鑰
         }
@@ -89,3 +90,6 @@ class fm():
         for index in data:
             sum+=index["value"]
         return sum
+
+# new_threading = threading.Thread(target=fm.get_stock_news)  #建立額外的執行緒
+# new_threading.start()  #執行

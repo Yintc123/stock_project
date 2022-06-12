@@ -1,13 +1,15 @@
 import datetime
+import json
+import time
 import pandas as pd
 
 import requests
 from db import *
 from FinMind.data import DataLoader
 
-stock_id=["2330", "2317", "2454", "2412", "6505", "1101", "TAIEX"]
-needs=["stock_id", "open", "low", "high", "close", "volume", "time", "PER", "dividend_yield", "PBR"]
-query="INSERT INTO stock_history (stock_id, open, low, high, close, volume, time) VALUES(%s, %s, %s, %s, %s, %s, %s)"
+# stock_id=["2330", "2317", "2454", "2412", "6505", "1101", "TAIEX"]
+# needs=["stock_id", "open", "low", "high", "close", "volume", "time", "PER", "dividend_yield", "PBR"]
+# query="INSERT INTO stock_history (stock_id, open, low, high, close, volume, time) VALUES(%s, %s, %s, %s, %s, %s, %s)"
 
 # stocks={
 #     "TAIEX":"台灣加權股票指數",
@@ -99,3 +101,49 @@ query="INSERT INTO stock_history (stock_id, open, low, high, close, volume, time
 #             print("done!")
 
 # mydb.commit()
+
+
+# 歷史資料
+
+stock="TAIEX"
+
+# api=DataLoader()
+
+# df=api.taiwan_stock_daily(
+#             stock_id=stock,
+#             start_date='1990-01-01',
+#             end_date=datetime.date.today(), # 今日日期
+#         )
+# df.rename(columns={
+#             'max':'high',
+#             'min':'low',
+#             'date':'time'
+#         }, inplace=True)
+# # print(df.to_dict('records'))
+# data_json=json.dumps(df.to_dict('records'))
+# print(type(data_json))
+
+# query="INSERT INTO stock_history (stock_id, stock_json) VALUES(%s, %s)"
+# mycursor.execute(query, (stock, data_json))
+# mydb.commit()
+
+query="SELECT*FROM stock_history WHERE stock_id='TAIEX'"
+mycursor.execute(query)
+data=mycursor.fetchone()
+data["time"]=data["time"]+datetime.timedelta(hours=8) 
+print(data["time"])
+print(datetime.datetime.today())
+print(data["time"].strftime("%Y/%m/%d"))
+print(datetime.datetime.today().strftime("%Y/%m/%d"))
+print(data["time"].strftime("%Y/%m/%d")==datetime.datetime.today().strftime("%Y/%m/%d"))
+
+
+
+# df=api.taiwan_stock_per_pbr(
+#                 stock_id="2330",
+#                 start_date= datetime.date.today() - datetime.timedelta(days=period), # 今日未收盤，故無今日的per值，需使用昨日日期
+#             )
+
+# df.rename(columns={
+#     'dividend_yield':'dividend-yield',
+# }, inplace=True)

@@ -48,14 +48,31 @@ async function init(){
     }
 
     // news_data=await stock.get_stock_news();
-    TAIEX_data=await stock.get_stock("TAIEX"); //api分開request避免延遲太久影響使用者體驗
-    chart_parameter.chart=trading_view.load_chart("Magnet", TAIEX_data["stock_transaction"], chart_type);
+    // TAIEX_data=await stock.get_stock("TAIEX"); //api分開request避免延遲太久影響使用者體驗
+    // console.log(TAIEX_data)
+    // chart_parameter.chart=trading_view.load_chart("Magnet", TAIEX_data["stock_transaction"], chart_type);
+    stock.get_stock("TAIEX").then(resp => {
+        TAIEX_data=resp;
+        chart_parameter.chart=trading_view.load_chart("Magnet", TAIEX_data["stock_transaction"], chart_type);
+        console.log(TAIEX_data)
+    }).then(()=>{
+        search.hide_loading();
+    })
+    // search.hide_loading();
 
-    news_data=await stock.get_stock_news(); //api分開request避免延遲太久影響使用者體驗
-    console.log(news_data)
-    reorder_news_data(news_data)
-    create_news_columns(news_data);
-    search.hide_loading();
+    // news_data=await stock.get_stock_news(); //api分開request避免延遲太久影響使用者體驗
+    // console.log(news_data)
+    // reorder_news_data(news_data);
+    // create_news_columns(news_data);
+    stock.get_stock_news().then(resp => {
+        news_data=resp;
+        reorder_news_data(news_data);
+        create_news_columns(news_data);
+        console.log(news_data);
+    }).then(() => {
+        // search.hide_loading();
+    })
+    // search.hide_loading();
 }
 
 function create_news_columns(raw_data){

@@ -53,9 +53,11 @@ class stock_info_db():
     def new_get_stock_history(self, stock_id):
         try:
             query="SELECT*FROM stock_history WHERE stock_id=%s"
+            if stock_id=="TAIEX":
+                query="SELECT*FROM stock_history WHERE stock_id=\'%s\'"
             self.connection()
             self.cur.execute(query %stock_id)
-            data=self.cur.fetchall()
+            data=self.cur.fetchone()
             self.close()
             return data
         except:

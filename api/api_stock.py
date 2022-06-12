@@ -1,4 +1,6 @@
-from re import I
+from threading import Thread
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import time
 from flask import *
 from dotenv import *
 import jwt
@@ -19,7 +21,9 @@ app_stock=Blueprint("api_stock", __name__)
 
 @app_stock.route("/stocks/news", methods=["GET"])
 def get_stocks_news():
-    stock_id=["2330", "2317", "2454"] # ["2330", "2317", "2454", "2412", "6505"]
+    start=time.time()
+    print("news starts")
+    stock_id=["2330", "2317", "2454", "2412", "6505"] # ["2330", "2317", "2454", "2412", "6505"]
     token_member=request.cookies.get("token_member") # 判斷是否登入
     if token_member:
         payload_member=jwt.decode(token_member, member_key, algorithms="HS256")
@@ -27,15 +31,42 @@ def get_stocks_news():
 
     data={}
     temp=[]
+    threads=[]
+    i=0
     fm_sdk=fm(None)
-    for stock in stock_id:
-        temp+=fm_sdk.get_stock_news(stock)
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        for stock in stock_id:
+            t_start=time.time()
+            # temp+=fm_sdk.get_stock_news(stock)
+            # thread = CustomThread(fm_sdk.get_stock_news(stock))
+            # threads.append(thread)
+            # thread.start()
+            threads.append(executor.submit(fm_sdk.get_stock_news, stock))
+            t_end=time.time()
+            print(stock)
+            print("news執行時間：", (t_end-t_start))
+            i+=1
+        
+        for task in as_completed(threads):
+            temp.append(task.result())
+            # print(task.result())
+    
+    # for thread in threads:
+    #     thread.join()
+    #     news_data = thread.value
+    #     temp.append(news_data)
+
     # print(temp)
+
     data=arrange_news(temp)
+    end=time.time()
+    print("get_stock_news執行時間：", (end-start))
     return data 
 
 @app_stock.route("/stock/<stock_id>", methods=["GET"])
 def get_stock(stock_id):
+    start=time.time()
+    print("stock starts")
     stock={
         "stock_transaction":[],
         "stock_data":None
@@ -43,7 +74,21 @@ def get_stock(stock_id):
 
     fm_sdk=fm(stock_id)
     stk=stk_db()
+
+    start=time.time()
+    # print("finmind_stock starts")
     stock["stock_transaction"]=fm_sdk.get_stock_transaction()
+    end=time.time()
+    # print("finmind執行時間：", (end-start))
+
+    # start=time.time()
+    # print("db starts")
+    # stock["stock_transaction"]=stk.new_get_stock_history("TAIEX")
+    # stock["stock_transaction"]=json.dumps(stock["stock_transaction"]["stock_json"])
+    # end=time.time()
+    # print("db執行時間：", (end-start))
+    # print(stock["stock_transaction"])
+
     # stock["stock_transaction"]=stk.new_get_stock_history(stock_id)
     if not stock["stock_transaction"]:
         error["message"]="無此股票資訊"
@@ -56,17 +101,16 @@ def get_stock(stock_id):
 
         # last_transaction_data=len(stock["stock_transaction"])-1
         stock_data=stk.get_stock(stock_id)
-        eps_roe=stk.get_eps_roe(stock_id)
+        eps_roe=get_last_data_from_dict(stk.get_eps_roe(stock_id))
+        print(eps_roe)
         if stock_data:
             stock["stock_data"].update({
-                # "PER":stock["stock_transaction"][last_transaction_data]["PER"],
-                # "PBR":stock["stock_transaction"][last_transaction_data]["PBR"],
-                # "dividend-yield":stock["stock_transaction"][last_transaction_data]["dividend_yield"],
-                # "date":stock["stock_transaction"][last_transaction_data]["time"],
-                "ROE":eps_roe[0]["ROE"],
+                "ROE":eps_roe["ROE"],
                 "stock_name":stock_data["stock_name"]
             })
 
+    end=time.time()
+    print("get_stock執行時間：", (end-start))
     return stock
 
 @app_stock.route("/stock/<stock_id>/PER", methods=["GET"])
@@ -103,13 +147,16 @@ def arrange_news(list_news):
         "source":[],
         "news_data":{}
     }
-    for news in list_news:
-        if news["source"] not in data["source"]:
-            data["source"].append(news["source"])
-            data["news_data"][news["source"]]=[]
-        if is_in_list(news["link"], data["news_data"][news["source"]]):
+    for stock in list_news:
+        if not stock:
             continue
-        data["news_data"][news["source"]].append(news)
+        for news in stock:
+            if news["source"] not in data["source"]:
+                data["source"].append(news["source"])
+                data["news_data"][news["source"]]=[]
+            if is_in_list(news["link"], data["news_data"][news["source"]]):
+                continue
+            data["news_data"][news["source"]].append(news)
     return data
 
 def is_in_list(value, dict_list):
@@ -117,3 +164,23 @@ def is_in_list(value, dict_list):
         if value == item["link"]:
             return True
     return False
+
+
+# custom thread
+class CustomThread(Thread):
+    # constructor
+    def __init__(self, func):
+        # execute the base constructor
+        Thread.__init__(self)
+        # set a default value
+        self.value = None
+        self.func=func
+ 
+    # function executed in a new thread
+    def run(self):
+        # block for a moment
+        # sleep(1)
+        
+        # store data in an instance variable
+        # self.value = 'Hello from a new thread'
+        self.value = self.func

@@ -17,7 +17,7 @@ mydb=mysql.connector.connect(
     port=dotenv_values(env)['port'],
 )
 
-mycursor=mydb.cursor()
+mycursor=mydb.cursor(dictionary=True)
 
 # mycursor.execute("SHOW DATABASES")
 # for db in mycursor:
@@ -54,15 +54,11 @@ mycursor=mydb.cursor()
 # mycursor.execute("ALTER TABLE stock_history ADD time VARCHAR(255) NOT NULL")
 # mycursor.execute("ALTER TABLE stock_history ADD FOREIGN KEY (stock_id) REFERENCES stock(stock_id)")
 
-# mycursor.execute("ALTER TABLE stock_history MODIFY PER INT NOT NULL DEFAULT 0")
-# mycursor.execute("ALTER TABLE stock_history MODIFY dividend_yield INT NOT NULL DEFAULT 0")
-# mycursor.execute("ALTER TABLE stock_history MODIFY PBR INT NOT NULL DEFAULT 0")
-# mycursor.execute("ALTER TABLE stock_history MODIFY EPS INT NOT NULL DEFAULT 0")
-
-
-
-# mycursor.execute("ALTER TABLE stock_history DROP COLUMN EPS")
-
+# ---new stock_history table---
+# mycursor.execute("CREATE TABLE stock_history (id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT, stock_id VARCHAR(256) NOT NULL)")
+# mycursor.execute("ALTER TABLE stock_history ADD stock_json MEDIUMTEXT NOT NULL")
+# mycursor.execute("ALTER TABLE stock_history ADD time DATETIME NOT NULL DEFAULT NOW()")
+# mycursor.execute("ALTER TABLE stock_history ADD FOREIGN KEY (stock_id) REFERENCES stock(stock_id)")
 
 # ---stock_eps_roe table---
 # mycursor.execute("CREATE TABLE stock_eps_roe (id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT, stock_id VARCHAR(256) NOT NULL)")

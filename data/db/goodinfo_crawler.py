@@ -24,7 +24,8 @@ for stock in data:
 
 print(stock_list)
 
-stock_list=["2454", "2412", "6505", "1101"]
+# stock_list=["2454", "2412", "6505", "1101"]
+# stock_list=["2454", ]
 
 for stock in stock_list:
     stock_data={
@@ -80,10 +81,10 @@ for stock in stock_list:
         print("done!")
     
     print(stock)
-    print("rest 40s")
+    print("rest 50s")
     
     # break
-    time.sleep(40)
+    time.sleep(50)
 
     mydb.commit()
 
@@ -105,6 +106,12 @@ for stock in stock_list:
 # mycursor.execute(query_update)
 # mydb.commit()
 # print("done")
+
+# query_delete="DELETE FROM stock_eps_roe WHERE stock_id='2454'"
+# mycursor.execute(query_delete)
+# mydb.commit()
+
+
 
 # query_stock="SELECT*FROM stock_eps_roe WHERE stock_id='1234'"
 # mycursor.execute(query_stock)
