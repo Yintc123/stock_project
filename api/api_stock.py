@@ -1,4 +1,3 @@
-from threading import Thread
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 from flask import *
@@ -23,7 +22,7 @@ app_stock=Blueprint("api_stock", __name__)
 def get_stocks_news():
     start=time.time()
     print("news starts")
-    stock_id=["2330", "2317", "2454", "2412", "6505"] # ["2330", "2317", "2454", "2412", "6505"]
+    stock_id=["2330", "2317", "2454", "2412", "6505"] # 台股前五權值股
     token_member=request.cookies.get("token_member") # 判斷是否登入
     if token_member:
         payload_member=jwt.decode(token_member, member_key, algorithms="HS256")
@@ -32,31 +31,12 @@ def get_stocks_news():
     data={}
     temp=[]
     threads=[]
-    i=0
     fm_sdk=fm(None)
-    with ThreadPoolExecutor(max_workers=20) as executor:
+    with ThreadPoolExecutor(max_workers=20) as executor: # 平行任務處理 ( 非同步 ) 的功能，能夠同時處理多個任務
         for stock in stock_id:
-            t_start=time.time()
-            # temp+=fm_sdk.get_stock_news(stock)
-            # thread = CustomThread(fm_sdk.get_stock_news(stock))
-            # threads.append(thread)
-            # thread.start()
             threads.append(executor.submit(fm_sdk.get_stock_news, stock))
-            t_end=time.time()
-            print(stock)
-            print("news執行時間：", (t_end-t_start))
-            i+=1
-        
         for task in as_completed(threads):
             temp.append(task.result())
-            # print(task.result())
-    
-    # for thread in threads:
-    #     thread.join()
-    #     news_data = thread.value
-    #     temp.append(news_data)
-
-    # print(temp)
 
     data=arrange_news(temp)
     end=time.time()
@@ -75,34 +55,17 @@ def get_stock(stock_id):
     fm_sdk=fm(stock_id)
     stk=stk_db()
 
-    start=time.time()
-    # print("finmind_stock starts")
     stock["stock_transaction"]=fm_sdk.get_stock_transaction()
-    end=time.time()
-    # print("finmind執行時間：", (end-start))
 
-    # start=time.time()
-    # print("db starts")
-    # stock["stock_transaction"]=stk.new_get_stock_history("TAIEX")
-    # stock["stock_transaction"]=json.dumps(stock["stock_transaction"]["stock_json"])
-    # end=time.time()
-    # print("db執行時間：", (end-start))
-    # print(stock["stock_transaction"])
-
-    # stock["stock_transaction"]=stk.new_get_stock_history(stock_id)
     if not stock["stock_transaction"]:
         error["message"]="無此股票資訊"
         return error
-    # print(stock["stock_transaction"])
     if stock_id !="TAIEX":
         stock["stock_data"]=get_last_data_from_dict(fm_sdk.get_stock_data(7))
         stock["stock_data"].update(fm_sdk.get_stock_eps())
-        # stock["stock_data"]=fm_sdk.get_stock_eps()
 
-        # last_transaction_data=len(stock["stock_transaction"])-1
         stock_data=stk.get_stock(stock_id)
         eps_roe=get_last_data_from_dict(stk.get_eps_roe(stock_id))
-        print(eps_roe)
         if stock_data:
             stock["stock_data"].update({
                 "ROE":eps_roe["ROE"],
@@ -128,9 +91,8 @@ def get_stock_EPS(stock_id):
     data["stock_data"]=stock_eps_roe
     return data
 
-def get_last_data_from_dict(data):
-     # df.to_dict('index')是將資料以index作為key的dict，但dict的資料無順序性，如要取最新的一筆資料須得到最大的index值
-    return data[len(data)-1]
+def get_last_data_from_dict(data):    
+    return data[len(data)-1] # df.to_dict('index')是將資料以index作為key的dict，但dict的資料無順序性，如要取最新的一筆資料須得到最大的index值
 
 
 def get_stock_id_from_token(favorite_list):
@@ -151,36 +113,33 @@ def arrange_news(list_news):
         if not stock:
             continue
         for news in stock:
-            if news["source"] not in data["source"]:
-                data["source"].append(news["source"])
-                data["news_data"][news["source"]]=[]
-            if is_in_list(news["link"], data["news_data"][news["source"]]):
+            news_source=rename_news_source(news["source"])
+            if news_source not in data["source"]:    
+                data["source"].append(news_source)
+                data["news_data"][news_source]=[]
+            if is_in_list(news_source, news["link"], news["title"], data["news_data"][news_source]): # 跳過重複的新問
                 continue
-            data["news_data"][news["source"]].append(news)
+            data["news_data"][news_source].append(news)
     return data
 
-def is_in_list(value, dict_list):
+def is_in_list(news_source, news_link, news_title, dict_list):
     for item in dict_list:
-        if value == item["link"]:
+        if news_link == item["link"]:
             return True
+        if news_title == item["title"]:
+            return True
+        if news_source == "Anue鉅亨":
+            if news_link.split("/")[-1] == item["link"].split("/")[-1]:
+                return True
     return False
 
-
-# custom thread
-class CustomThread(Thread):
-    # constructor
-    def __init__(self, func):
-        # execute the base constructor
-        Thread.__init__(self)
-        # set a default value
-        self.value = None
-        self.func=func
- 
-    # function executed in a new thread
-    def run(self):
-        # block for a moment
-        # sleep(1)
-        
-        # store data in an instance variable
-        # self.value = 'Hello from a new thread'
-        self.value = self.func
+def rename_news_source(news_source):
+    source_list={
+        "鉅亨新聞":"Anue鉅亨",
+        "鉅亨網":"Anue鉅亨",
+        "Yahoo奇摩新聞":"Yahoo奇摩股市",
+        "Apple Daily TW":"蘋果新聞網",
+    }
+    if news_source in source_list:
+        return source_list[news_source]
+    return news_source

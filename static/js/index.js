@@ -35,7 +35,9 @@ const news_trademark={
     "工商時報":"https://cteecors.azureedge.net/wp-content/uploads/2020/02/10-00642-005.png",
     "翻爆":"https://imgv.azureedge.net/wpupload/2019/04/logo.jpg",
     "鉅亨網":"https://sfiles.cnyes.cool/fe-common/ccbabd1c/ac25a5abb8fcbdfddb46fa4e9bca6b06.svg",
-    "TechNews 科技新報":"https://technews.tw/wp-content/themes/twentytwelve/images/finance-logo.gif"
+    "TechNews 科技新報":"https://technews.tw/wp-content/themes/twentytwelve/images/finance-logo.gif",
+    "台視":"https://www.ttv.com.tw/finance/images/TTV-Finance_logo200.png",
+    "鉅亨新聞":"https://sfiles.cnyes.cool/fe-common/ccbabd1c/ac25a5abb8fcbdfddb46fa4e9bca6b06.svg"
 };
 
 
@@ -111,7 +113,9 @@ function create_news_trademark(source, first_news_link){
     if (source=="商周財富網"){
         trademark.style.backgroundColor="black";
     }
-    
+    if (source=="台視"){
+        trademark.style.backgroundColor="#5574ac";
+    }
     a_news.appendChild(img_trademark);
     trademark.appendChild(a_news);
     return trademark;

@@ -90,6 +90,3 @@ class fm():
         for index in data:
             sum+=index["value"]
         return sum
-
-# new_threading = threading.Thread(target=fm.get_stock_news)  #建立額外的執行緒
-# new_threading.start()  #執行
