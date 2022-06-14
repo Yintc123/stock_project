@@ -1,10 +1,13 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import datetime
 import time
+import requests
 from flask import *
 from dotenv import *
 import jwt
 from .finmind_module import fm
 from data.stock_db import stock_info_db as stk_db
+from .api_aws import Aws_s3_api
 
 env='.env' # 執行環境
 load_dotenv(override=True)
@@ -14,49 +17,81 @@ error={
         "message":None
 }
 
+cdn_url="https://d2nm5l5t7ikyvn.cloudfront.net/"
+
 member_key=dotenv_values(env)["member_key"] # jwt_key
 
 app_stock=Blueprint("api_stock", __name__)
 
 @app_stock.route("/stocks/news", methods=["GET"])
 def get_stocks_news():
-    start=time.time()
-    print("news starts")
     stock_id=["2330", "2317", "2454", "2412", "6505"] # 台股前五權值股
     token_member=request.cookies.get("token_member") # 判斷是否登入
     if token_member:
         payload_member=jwt.decode(token_member, member_key, algorithms="HS256")
-        stock_id=get_stock_id_from_token(payload_member["data"]["favorite"])
+        if payload_member["data"]["favorite"]:
+            stock_id=get_stock_id_from_token(payload_member["data"]["favorite"])
+
+    s3=Aws_s3_api() # 將資料上傳至s3
+    # timeString=datetime.datetime.now() + datetime.timedelta(hours=8) # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    # timeString=timeString.strftime("%Y_%m_%d") # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    timeString = datetime.datetime.now().strftime("%Y_%m_%d") # localhost
 
     data={}
+    no_data=[]
     temp=[]
-    threads=[]
-    fm_sdk=fm(None)
-    with ThreadPoolExecutor(max_workers=20) as executor: # 平行任務處理 ( 非同步 ) 的功能，能夠同時處理多個任務
-        for stock in stock_id:
-            threads.append(executor.submit(fm_sdk.get_stock_news, stock))
-        for task in as_completed(threads):
-            temp.append(task.result())
+    for stock in stock_id:
+        json_filename=stock+"-"+"news"+timeString+".json"
+        cdn_stock_data=requests.get(cdn_url+json_filename) # 確認cdn上有無資料
+        if cdn_stock_data.status_code == 200: # cdn有儲存今日的歷史股價，回傳cdn資料    
+            temp.append(cdn_stock_data.json())
+            continue
+        no_data.append(stock)
 
+    print(no_data)
+    if no_data: # 並未上傳新聞的股票
+        print("hi")
+        threads=[]
+        fm_sdk=fm(None)
+        with ThreadPoolExecutor(max_workers=20) as executor: # 平行任務處理 ( 非同步 ) 的功能，能夠同時處理多個任務
+            for stock in no_data:
+                threads.append(executor.submit(fm_sdk.get_stock_news, stock))
+            for task in as_completed(threads):
+                temp.append(task.result())
+                stock_data=task.result()
+                if stock_data:
+                    json_filename=stock_data[0]["stock_id"]+"-"+"news"+timeString+".json"
+                    s3.upload_json_data(task.result(), json_filename)
+                    no_data.remove(stock_data[0]["stock_id"])
+
+    if no_data: # stock_id內的stock回傳結果皆無新聞
+        for stock in no_data:
+            no_news=[]
+            json_filename=stock+"-"+"news"+timeString+".json"
+            s3.upload_json_data(no_news, json_filename)
+    
     data=arrange_news(temp)
-    end=time.time()
-    print("get_stock_news執行時間：", (end-start))
     return data 
 
 @app_stock.route("/stock/<stock_id>", methods=["GET"])
 def get_stock(stock_id):
-    start=time.time()
-    print("stock starts")
     stock={
         "stock_transaction":[],
         "stock_data":None
     }
 
+    # timeString=datetime.datetime.now() + datetime.timedelta(hours=8) # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    # timeString=timeString.strftime("%Y_%m_%d") # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    timeString = datetime.datetime.now().strftime("%Y_%m_%d") # localhost
+
+    json_filename=stock_id+"-"+timeString+".json"
+    cdn_stock_data=requests.get(cdn_url+json_filename) # 確認cdn上有無資料
+    if cdn_stock_data.status_code == 200: # cdn有儲存今日的歷史股價，回傳cdn資料
+        return cdn_stock_data.json()
+
     fm_sdk=fm(stock_id)
     stk=stk_db()
-
-    stock["stock_transaction"]=fm_sdk.get_stock_transaction()
-
+    stock["stock_transaction"]=fm_sdk.get_stock_transaction() # cdn無資料從finmind的api取得資料
     if not stock["stock_transaction"]:
         error["message"]="無此股票資訊"
         return error
@@ -71,9 +106,10 @@ def get_stock(stock_id):
                 "ROE":eps_roe["ROE"],
                 "stock_name":stock_data["stock_name"]
             })
+    
+    s3=Aws_s3_api() # 將資料上傳至s3
+    s3.upload_json_data(stock, json_filename)
 
-    end=time.time()
-    print("get_stock執行時間：", (end-start))
     return stock
 
 @app_stock.route("/stock/<stock_id>/PER", methods=["GET"])
@@ -91,7 +127,8 @@ def get_stock_EPS(stock_id):
     data["stock_data"]=stock_eps_roe
     return data
 
-def get_last_data_from_dict(data):    
+def get_last_data_from_dict(data): 
+    # print(data)   
     return data[len(data)-1] # df.to_dict('index')是將資料以index作為key的dict，但dict的資料無順序性，如要取最新的一筆資料須得到最大的index值
 
 

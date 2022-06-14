@@ -18,24 +18,57 @@ const chart_type="candlestick";
 
 // ----------V(View)----------
 async function init(){
-    member_info=await member.get_member(); //會員資訊
-    if (member_info["data"]){
-        member.show_nav_member(member_info["data"]);
-        member.show_member_photo(member_info["data"]["photo"]);
-        show_favorite_star(check_favorite_star(member_info["data"]["favorite"]));
-        show_price_notification(member_info["data"]["email_status"], member_info["data"]["favorite"]);
-        show_div_message_member_photo(member_info["data"]["photo"]);
-    }else{//未登入
-        show_div_message_member_photo("https://icons.veryicon.com/png/128/miscellaneous/somethingxs/person-24.png");
-    }
-    console.log(member_info)
+    member.get_member().then(resp => {
+        member_info=resp;
+        if (member_info["data"]){
+            member.show_nav_member(member_info["data"]);
+            member.show_member_photo(member_info["data"]["photo"]);
+            show_favorite_star(check_favorite_star(member_info["data"]["favorite"]));
+            show_price_notification(member_info["data"]["email_status"], member_info["data"]["favorite"]);
+            show_div_message_member_photo(member_info["data"]["photo"]);
+        }else{//未登入
+            show_div_message_member_photo("https://icons.veryicon.com/png/128/miscellaneous/somethingxs/person-24.png");
+        }
+    })
+
+    // stock.get_stock_from_CDN(stk_id).then(resp => { //cdn有資料從cdn抓取
+    //     transaction_data=resp;
+    //     show_stock_title(transaction_data["stock_data"]);
+    //     show_stock_info(transaction_data["stock_data"]);
+    //     chart_parameter.chart=trading_view.load_chart("Normal", transaction_data["stock_transaction"], chart_type);
+    // }).catch(async (error) => { // cdn無資料從api抓取
+    //     console.log(error);
+    //     transaction_data=await stock.get_stock(stk_id);
+    //     if(transaction_data.error){
+    //         window.location=url_mode["url_stock"]; //查無該股票跳回首頁
+    //     }
+    //     show_stock_title(transaction_data["stock_data"]);
+    //     show_stock_info(transaction_data["stock_data"]);
+    //     chart_parameter.chart=trading_view.load_chart("Normal", transaction_data["stock_transaction"], chart_type);
+    //     // stock.get_stock(stk_id).then(resp => {
+    //     //     transaction_data=resp;
+    //     //     if(transaction_data.error){
+    //     //         window.location=url_mode["url_stock"]; //查無該股票跳回首頁
+    //     //     }
+    //     //     show_stock_title(transaction_data["stock_data"]);
+    //     //     show_stock_info(transaction_data["stock_data"]);
+    //     //     chart_parameter.chart=trading_view.load_chart("Normal", transaction_data["stock_transaction"], chart_type);
+    //     // })
+    // }).then(() => {
+    //     stock.get_stock_specific_data(stk_id, "PER").then(resp => {
+    //         spec_data=resp;
+    //         show_stock_info_table(spec_data["stock_data"], transaction_data, "PER");
+    //     })
+    // }).then(() => {
+    //     search.hide_loading();
+    // })
+
 
     stock.get_stock(stk_id).then(resp => {
         transaction_data=resp;
         if(transaction_data.error){
             window.location=url_mode["url_stock"]; //查無該股票跳回首頁
         }
-        console.log(transaction_data)
         show_stock_title(transaction_data["stock_data"]);
         show_stock_info(transaction_data["stock_data"]);
         chart_parameter.chart=trading_view.load_chart("Normal", transaction_data["stock_transaction"], chart_type);
@@ -47,30 +80,11 @@ async function init(){
             search.hide_loading();
         })
     })
-    // transaction_data = await stock.get_stock(stk_id); //api分開request避免延遲太久影響使用者體驗
-    // if(transaction_data.error){
-    //     window.location=url_mode["url_stock"]; //查無該股票跳回首頁
-    // }
-    // console.log(transaction_data)
-    // show_stock_title(transaction_data["stock_data"]);
-    // show_stock_info(transaction_data["stock_data"]);
-    // chart_parameter.chart=trading_view.load_chart("Normal", transaction_data["stock_transaction"], chart_type);
-
-    // console.log(transaction_data)
-
     
-    // spec_data = await stock.get_stock_specific_data(stk_id, "PER"); //api分開request避免延遲太久影響使用者體驗
-    // show_stock_info_table(spec_data["stock_data"], transaction_data, "PER");
-
     message.get_message(stk_id).then(resp => {
         let message_data=resp;
         show_message_column(message_data["data"]);
     })
-    // let message_data=await message.get_message(stk_id);
-    // show_message_column(message_data["data"]);
-    // console.log(message_data);
-    
-    // search.hide_loading();
 }
 
 function show_stock_info(t_data){

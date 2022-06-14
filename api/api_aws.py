@@ -1,3 +1,4 @@
+import json
 from dotenv import load_dotenv, dotenv_values
 import boto3
 import os
@@ -33,6 +34,15 @@ class Aws_s3_api():
                                    ContentType=img_type
                                    )
         return filename
+
+    def upload_json_data(self, file, filename):
+        self.aws_client.put_object(Body=json.dumps(file), 
+                                   Bucket=self.bucket, 
+                                   Key=filename,
+                                #    ContentType=img_type
+                                   )
+        return filename
+
     def delete_data(self):
         self.aws_client.delete_object(Bucket=self.bucket, Key='test.txt')
         return 0

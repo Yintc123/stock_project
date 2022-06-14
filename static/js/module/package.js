@@ -12,7 +12,8 @@ const url={
         "url_api_email":"http://127.0.0.1:5000/api/email",
         "url_api_message":"http://127.0.0.1:5000/api/message/",
         "url_api_subscription":"http://127.0.0.1:5000/api/subscription",
-        "url_api_push":"http://127.0.0.1:5000/api/push"
+        "url_api_push":"http://127.0.0.1:5000/api/push",
+        "url_cdn":"https://d2nm5l5t7ikyvn.cloudfront.net/"
     },
     "prod":{
         "url_stock":"https://"+domain_name+"/",
@@ -24,7 +25,8 @@ const url={
         "url_api_email":"https://"+domain_name+"/api/email",
         "url_api_message":"https://"+domain_name+"/api/message/",
         "url_api_subscription":"https://"+domain_name+"/api/subscription",
-        "url_api_push":"https://"+domain_name+"/api/push"
+        "url_api_push":"https://"+domain_name+"/api/push",
+        "url_cdn":"https://d2nm5l5t7ikyvn.cloudfront.net/"
     }
 };
 
