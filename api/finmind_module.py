@@ -44,7 +44,7 @@ class fm():
             }, inplace=True)
             return df.to_dict('index') # 將dataframe格式以index為key轉為dictionary
         except:
-            print("error in get_stock_data()")
+            # print("error in get_stock_data()")
             return {"data":None}
 
     def get_stock_eps(self):
@@ -67,7 +67,7 @@ class fm():
             eps=round(self.calculate_eps(data.to_dict('records')), 2) # 取小數點後第二位
             return {"EPS":eps}
         except:
-            print("error in get_stock_eps()")
+            # print("error in get_stock_eps()")
             return {"data":None}
 
     def get_stock_news(self, stock_id):

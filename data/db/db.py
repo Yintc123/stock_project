@@ -1,7 +1,7 @@
 import mysql.connector
 from dotenv import load_dotenv, dotenv_values
 
-env='.env' # 執行環境
+env='.env.dev' # 執行環境
 load_dotenv(override=True)
 
 mydb=mysql.connector.connect(
@@ -17,7 +17,7 @@ mydb=mysql.connector.connect(
     port=dotenv_values(env)['port'],
 )
 
-mycursor=mydb.cursor(dictionary=True)
+mycursor=mydb.cursor()
 
 # mycursor.execute("SHOW DATABASES")
 # for db in mycursor:
@@ -27,7 +27,6 @@ mycursor=mydb.cursor(dictionary=True)
 # mycursor.execute("DROP TABLE stock_eps_roe")
 # mycursor.execute("DROP TABLE stock_history")
 # mycursor.execute("DROP TABLE favorite")
-# mycursor.execute("DROP TABLE stock_eps_roe")
 # mycursor.execute("DROP TABLE message_board")
 # mycursor.execute("DROP TABLE stock")
 

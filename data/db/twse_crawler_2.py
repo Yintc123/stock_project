@@ -4,9 +4,9 @@ import bs4
 import time
 from db import *
 
-# 上市
+# 上櫃
 
-url='https://isin.twse.com.tw/isin/C_public.jsp?strMode=2'
+url='https://isin.twse.com.tw/isin/C_public.jsp?strMode=4'
 
 request=req.Request(url, headers={
     "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36"
@@ -31,21 +31,23 @@ for row in rows:
             "listed":None,
             "industry":None
         }
-    if row.find("b"):
-        # print(row.find("b").text)
+    # if row.find("b"):
+    #     print(row.find("b").text)
+    #     if row.find("b").text == "股票":
+    #         continue
+    if not row.find_all("td"):
         continue
-    if row.find("td").text =="03001P　健策中信17售01":
-        # print(row.find("td").text)
-        break
     tds=row.find_all("td")
     for index in range(0, len(tds)):
         if index in no_needs_index:
             continue
-        if tds[index].text =='有價證券代號及名稱 ':
-            break
+        # if tds[index].text =='有價證券代號及名稱 ':
+        #     break
         if index==0:
             comp=tds[index].text
             comp=comp.split("　")
+            if len(comp[0])>4:
+                break
             stock_data["stock_id"]=comp[0]
             stock_data["stock_name"]=comp[1]
         if index==3:
@@ -72,6 +74,8 @@ for stock in stock_list:
     print("done!")
 
 mydb.commit()
+
+
 # with open('test.txt', mode='w', encoding='utf-8') as file:
 #     file.write(data)
 

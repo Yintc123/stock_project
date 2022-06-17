@@ -6,6 +6,7 @@ from api.api_email import app_email
 from api.api_message import app_message
 from api.api_webpush import app_webpush
 from data.stock_price_notification import *
+from data.update_stock_info import *
 
 env=str('.env.'+dotenv_values('.env')["MODE"])
 load_dotenv(override=True)

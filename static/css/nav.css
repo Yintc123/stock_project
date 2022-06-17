@@ -72,3 +72,13 @@
 #home_img{
     height:50px;
 }
+
+@media screen and (max-width:610px){
+    #input_search{
+        width: 100px;
+    }
+    #navigation ul{
+        gap:2px;
+        right:-18px;
+    }
+}

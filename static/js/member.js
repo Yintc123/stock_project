@@ -1,7 +1,4 @@
-console.log("hi")
-
 import {url_mode} from './module/package.js';
-
 import * as search from './module/search_module.js';
 import * as member from './module/member_module.js';
 import * as email from './module/email_module.js';
@@ -16,7 +13,7 @@ async function init(){
     if (!member_info["data"]){
         window.location=url_mode["url_stock"]; //未登入跳回首頁
     }
-    console.log(member_info)
+    // console.log(member_info)
 
     show_favorite_stock_in_table(member_info["data"]["favorite"])
     show_member_info(member_info["data"]);
@@ -197,7 +194,7 @@ function add_star_event(obj, stk_id){
         const tr=document.querySelector(tr_id);
         table_favorite.removeChild(tr);
         const response=await member.delete_favorite_stock(member_info["data"]["id"], stk_id);
-        console.log(response);
+        // console.log(response);
         
     })
 }
@@ -207,7 +204,7 @@ function set_push_subscribe(){
     if (!('serviceWorker' in navigator)) // 確認支援service worker
         return;
         navigator.serviceWorker.ready.then((sw) => {
-            console.log("推播api")
+            // console.log("推播api")
             reg=sw;
             return sw.pushManager.getSubscription(); //取得訂閱狀態
         }).then((sub) => {
@@ -230,15 +227,15 @@ function set_push_subscribe(){
                     });
                 }).then((response) => {
                     if(response.ok)
-                        console.log(response);
+                        // console.log(response);
                         display_notification();
                 })
                 .catch((err) => {
-                    console.log('訂閱失敗',err);
+                    // console.log('訂閱失敗',err);
                 });;
             }else{
                 //已經訂閱
-                console.log('已經訂閱');
+                // console.log('已經訂閱');
             }
         });
 }
@@ -275,9 +272,9 @@ cancel_button.addEventListener("click", () => {
 
 email_button.addEventListener("click", async () => {
     const input_email_renew=document.querySelector("#input_email_renew").value;
-    console.log(input_email_renew)
+    // console.log(input_email_renew)
     email_verification_number=await email.get_verification(input_email_renew);
-    console.log(email_verification_number);
+    // console.log(email_verification_number);
 })
 
 change_email_button.addEventListener("click", () => {
@@ -295,7 +292,7 @@ submit_button.addEventListener("click", async () => {
     const input_password_renew=document.querySelector("#input_password_renew").value;
 
     let response=await member.renew_member(member_info["data"]["id"], input_username_renew, input_email_renew, input_password_renew, null, input_email_verify);
-    console.log(response);
+    // console.log(response);
     show_resp_message(1, response);
     if (!response.error){
         window.location=window.location.href;
@@ -332,7 +329,7 @@ changing_photo.addEventListener("click", () => {
 })
 
 img_uploader.addEventListener("change", async function(e){ //不能使用 (e) => {}，why? 
-    console.log(e);
+    // console.log(e);
     const reader=new FileReader();
     reader.addEventListener("load", () => {
         let image=new Image();
@@ -343,22 +340,22 @@ img_uploader.addEventListener("change", async function(e){ //不能使用 (e) =>
     })
     reader.readAsDataURL(this.files[0]);
     let resp=await member.renew_member(member_info["data"]["id"], null, null, null, e.target.files[0], null); // 將file格式的圖片傳至後端處理
-    console.log(resp);
+    // console.log(resp);
 })
 
 button_web_push.addEventListener("click", () => {
     if (!"Notification" in window){ // 確認瀏覽器支援網頁推播
-        console.log("不支援網頁推播");
+        // console.log("不支援網頁推播");
         return;
     }
-    console.log(Notification.permission);
+    // console.log(Notification.permission);
     Notification.requestPermission((status) => { // 會被丟入callback queue
         // This allows to use Notification.permission with Chrome/Safari
         if (Notification.permission !== status) { // 為什麼要做這個?
             Notification.permission = status;
         }
         if (Notification.permission !== "granted"){
-            console.log("拒絕訂閱通知!");
+            // console.log("拒絕訂閱通知!");
         }
         set_push_subscribe(); // 訂閱網站推播
     })

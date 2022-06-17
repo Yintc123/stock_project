@@ -32,3 +32,11 @@
     display:flex;
     justify-content: center;
 }
+
+@media screen and (max-width:610px){
+    #container_content h1{
+        font-size:20px;
+        padding:2px;
+        margin:0px;
+    }
+}

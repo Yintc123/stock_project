@@ -93,3 +93,9 @@
     height:200px;
     border:1px solid;
 }
+
+@media screen and (max-width:610px){
+    #button_reset{
+        right:-40px;
+    }
+}

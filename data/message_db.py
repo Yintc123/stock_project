@@ -10,17 +10,19 @@ class message_db():
         try:
             self.conn=db.conn_pool.get_connection()
             self.cur=self.conn.cursor(dictionary=True) # cursor return dictionary
-            print("successful access to the connection.")
+            # print("successful access to the connection.")
         except:
-            print("error in the connection.")
+            # print("error in the connection.")
+            return
 
     def close(self):
         try:
             self.cur.close() # cursor.close()釋放從資料庫取得的資源，兩個皆須關閉
             self.conn.close() # connection.close()方法可關閉對連線池的連線，並釋放相關資源
-            print("close the connection successfully.")
+            # print("close the connection successfully.")
         except:
-            print("error in closing the connection.")
+            # print("error in closing the connection.")
+            return
 
     def get_message(self, stock_id):
         query_get_message="SELECT*FROM message_board WHERE stock_id=\'%s\'" # stock_id的資料格式為VARCHAR(255)，需要使用跳脫符號\ 
@@ -28,7 +30,7 @@ class message_db():
         self.cur.execute(query_get_message %stock_id)
         stock_message=self.cur.fetchall()
         self.close()
-        print("Success in get_message.")
+        # print("Success in get_message.")
         return stock_message
 
     def add_message(self, user_id, stock_id, message):
@@ -37,7 +39,7 @@ class message_db():
         self.cur.execute(query_add_message, (user_id, stock_id, message))
         self.conn.commit()
         self.close()
-        print("Success in add_message.")
+        # print("Success in add_message.")
         return self.response_text(0, "留言成功")
 
     def delete_message(self, stock_id):
@@ -46,7 +48,7 @@ class message_db():
         self.cur.execute(query_delete_message %stock_id)
         self.conn.commit()
         self.close()
-        print("Success in get_favorite_stock.")
+        # print("Success in get_favorite_stock.")
         return self.response_text(0, "刪除成功")
 
     def response_text(self, status, message):

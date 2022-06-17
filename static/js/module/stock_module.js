@@ -40,3 +40,9 @@ export async function get_stock_news(){
                 })
 }
 
+export async function get_server_time(){
+    let url="https://yin888.info/api/time";
+    return await fetch(url).then(response => {
+        return response.json();
+    })
+}

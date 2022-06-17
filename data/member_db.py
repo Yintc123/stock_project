@@ -10,17 +10,19 @@ class member_db():
         try:
             self.conn=db.conn_pool.get_connection()
             self.cur=self.conn.cursor(dictionary=True) # cursor return dictionary
-            print("successful access to the connection.")
+            # print("successful access to the connection.")
         except:
-            print("error in the connection.")
+            # print("error in the connection.")
+            return
 
     def close(self):
         try:
             self.cur.close() # cursor.close()釋放從資料庫取得的資源，兩個皆須關閉
             self.conn.close() # connection.close()方法可關閉對連線池的連線，並釋放相關資源
-            print("close the connection successfully.")
+            # print("close the connection successfully.")
         except:
-            print("error in closing the connection.")
+            # print("error in closing the connection.")
+            return
 
     def create_member(self, username, email, password):
         try:
@@ -29,13 +31,13 @@ class member_db():
             self.cur.execute(query_create_member, (username, email, password))
             self.conn.commit()
             self.close()
-            print("Success in create_member.")
+            # print("Success in create_member.")
             return self.response_text(0, "註冊成功")
         except:
             self.close()
-            print("error in create_member.")
+            # print("error in create_member.")
             message="500 internal database error."
-            return self.response_text(1, message)
+            # return self.response_text(1, message)
 
     def get_member(self, email, id):
         try:
@@ -51,11 +53,11 @@ class member_db():
             self.cur.execute(query_get_member %column)
             member_info=self.cur.fetchone()
             self.close()
-            print("Success in get_member.")
+            # print("Success in get_member.")
             return member_info 
         except:
             self.close()
-            print("error in get_member.")
+            # print("error in get_member.")
             message="500 internal database error."
             return self.response_text(1, message)
 
@@ -85,7 +87,7 @@ class member_db():
             return self.response_text(0, "會員資訊更新成功")
         except:
             self.close()
-            print("error in renew_member.")
+            # print("error in renew_member.")
             message="500 internal database error."
             return self.response_text(1, message)
 
@@ -96,11 +98,11 @@ class member_db():
             self.cur.execute(query_add_price, (token, user_id))
             self.conn.commit()
             self.close()
-            print("Success in add_push_token.")
+            # print("Success in add_push_token.")
             return self.response_text(0, "token紀錄完成")
         except:
             self.close()
-            print("error in add_push_token.")
+            # print("error in add_push_token.")
             message="500 internal database error."
             return self.response_text(1, message)
 
@@ -111,11 +113,11 @@ class member_db():
             self.cur.execute(query_get_favorite, (user_id,))
             favorite=self.cur.fetchall()
             self.close()
-            print("Success in get_favorite_stock.")
+            # print("Success in get_favorite_stock.")
             return favorite          
         except:
             self.close()
-            print("error in get_favorite_stock.")
+            # print("error in get_favorite_stock.")
             message="500 internal database error."
             return self.response_text(1, message)
 
@@ -131,11 +133,11 @@ class member_db():
             self.cur.execute(query_add_favorite, (user_id, stock_id))
             self.conn.commit()
             self.close()
-            print("Success in add_favorite_stock.")
+            # print("Success in add_favorite_stock.")
             return self.response_text(0, "添加成功")
         except:
             self.close()
-            print("error in add_favorite_stock.")
+            # print("error in add_favorite_stock.")
             message="500 internal database error."
             return self.response_text(1, message)
 
@@ -146,11 +148,11 @@ class member_db():
             self.cur.execute(query_get_favorite, (user_id, stock_id))
             self.conn.commit()
             self.close()
-            print("Success in get_favorite_stock.")
+            # print("Success in get_favorite_stock.")
             return self.response_text(0, "刪除成功")
         except:
             self.close()
-            print("error in delete_favorite_stock.")
+            # print("error in delete_favorite_stock.")
             message="500 internal database error."
             return self.response_text(1, message)
 
@@ -161,11 +163,11 @@ class member_db():
             self.cur.execute(query_add_price, (price, user_id, stock_id))
             self.conn.commit()
             self.close()
-            print("Success in add_favorite_stock_price.")
+            # print("Success in add_favorite_stock_price.")
             return self.response_text(0, "價格設定完成")
         except:
             self.close()
-            print("error in add_favorite_stock_price.")
+            # print("error in add_favorite_stock_price.")
             message="500 internal database error."
             return self.response_text(1, message)
             
@@ -176,11 +178,11 @@ class member_db():
             self.cur.execute(query_get_favorite)
             favorite=self.cur.fetchall()
             self.close()
-            print("Success in get_favorite_stock.")
+            # print("Success in get_favorite_stock.")
             return favorite          
         except:
             self.close()
-            print("error in get_favorite_stock.")
+            # print("error in get_favorite_stock.")
             message="500 internal database error."
             return self.response_text(1, message)
 

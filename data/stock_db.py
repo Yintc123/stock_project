@@ -9,17 +9,19 @@ class stock_info_db():
         try:
             self.conn=db.conn_pool.get_connection()
             self.cur=self.conn.cursor(dictionary=True) # cursor return dictionary
-            print("successful access to the connection")
+            # print("successful access to the connection")
         except:
-            print("error in the connection")
+            # print("error in the connection")
+            return
 
     def close(self):
         try:
             self.cur.close() # cursor.close()釋放從資料庫取得的資源，兩個皆須關閉
             self.conn.close() # connection.close()方法可關閉對連線池的連線，並釋放相關資源
-            print("close the connection successfully")
+            # print("close the connection successfully")
         except:
-            print("error in closing the connection")
+            # print("error in closing the connection")
+            return
 
     def get_stock(self, stock_id):
         try:
@@ -32,7 +34,7 @@ class stock_info_db():
             return data
         except:
             self.close() # 出現error直接關閉連線，避免佔用資料庫資源
-            print("error in function, get_stock()")
+            # print("error in function, get_stock()")
             return None
     
     def get_eps_roe(self, stock_id):
@@ -46,7 +48,7 @@ class stock_info_db():
             return data
         except:
             self.close() # 出現error直接關閉連線，避免佔用資料庫資源
-            print("error in function, get_stock()")
+            # print("error in function, get_stock()")
             return None
 
 
@@ -62,7 +64,7 @@ class stock_info_db():
             return data
         except:
             self.close() # 出現error直接關閉連線，避免佔用資料庫資源
-            print("error in function, get_stock()")
+            # print("error in function, get_stock()")
             return None
 
     def get_stock_name(self, stock_id):

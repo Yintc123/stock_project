@@ -1,5 +1,3 @@
-console.log("hi");
-
 import * as stock from './module/stock_module.js';
 import * as trading_view from './module/tv_stock_chart.js';
 import * as member from './module/member_module.js';
@@ -51,28 +49,13 @@ async function init(){
             member.show_nav_member(member_info["data"]);
             member.show_member_photo(member_info["data"]["photo"]);
         }
-        console.log(member_info)
+        // console.log(member_info)
     })
-
-    // stock.get_stock_from_CDN("TAIEX").then(resp => { //cdn有資料從cdn抓取
-    //     TAIEX_data=resp;
-    //     chart_parameter.chart=trading_view.load_chart("Magnet", TAIEX_data["stock_transaction"], chart_type);
-    //     console.log(TAIEX_data)
-    // }).catch(error => { // cdn無資料從api抓取
-    //     console.log(error);
-    //     stock.get_stock("TAIEX").then(resp => {
-    //         TAIEX_data=resp;
-    //         chart_parameter.chart=trading_view.load_chart("Magnet", TAIEX_data["stock_transaction"], chart_type);
-    //         console.log(TAIEX_data)
-    //     })
-    // }).then(() => {
-    //     search.hide_loading();
-    // })
 
     stock.get_stock("TAIEX").then(resp => {
         TAIEX_data=resp;
         chart_parameter.chart=trading_view.load_chart("Magnet", TAIEX_data["stock_transaction"], chart_type);
-        console.log(TAIEX_data)
+        // console.log(TAIEX_data)
     }).then(() => {
         // search.hide_loading();
     })
@@ -81,9 +64,13 @@ async function init(){
         news_data=resp;
         reorder_news_data(news_data);
         create_news_columns(news_data);
-        console.log(news_data);
+        // console.log(news_data);
     }).then(() => {
         search.hide_loading();
+    })
+
+    stock.get_server_time().then(resp => {
+        console.log(resp);
     })
 }
 

@@ -17,7 +17,7 @@ error={
         "message":None
 }
 
-cdn_url="https://d2nm5l5t7ikyvn.cloudfront.net/"
+cdn_url=dotenv_values(env)["url_cdn"]
 
 member_key=dotenv_values(env)["member_key"] # jwt_key
 
@@ -33,9 +33,9 @@ def get_stocks_news():
             stock_id=get_stock_id_from_token(payload_member["data"]["favorite"])
 
     s3=Aws_s3_api() # 將資料上傳至s3
-    # timeString=datetime.datetime.now() + datetime.timedelta(hours=8) # AWS EC2，EC2的系統時間較台灣時間慢8小時
-    # timeString=timeString.strftime("%Y_%m_%d") # AWS EC2，EC2的系統時間較台灣時間慢8小時
-    timeString = datetime.datetime.now().strftime("%Y_%m_%d") # localhost
+    timeString=datetime.datetime.now() + datetime.timedelta(hours=8) # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    timeString=timeString.strftime("%Y_%m_%d") # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    # timeString = datetime.datetime.now().strftime("%Y_%m_%d") # localhost
 
     data={}
     no_data=[]
@@ -48,9 +48,7 @@ def get_stocks_news():
             continue
         no_data.append(stock)
 
-    print(no_data)
     if no_data: # 並未上傳新聞的股票
-        print("hi")
         threads=[]
         fm_sdk=fm(None)
         with ThreadPoolExecutor(max_workers=20) as executor: # 平行任務處理 ( 非同步 ) 的功能，能夠同時處理多個任務
@@ -64,7 +62,7 @@ def get_stocks_news():
                     s3.upload_json_data(task.result(), json_filename)
                     no_data.remove(stock_data[0]["stock_id"])
 
-    if no_data: # stock_id內的stock回傳結果皆無新聞
+    if no_data: # no_data內的stock回傳結果皆無新聞
         for stock in no_data:
             no_news=[]
             json_filename=stock+"-"+"news"+timeString+".json"
@@ -80,9 +78,9 @@ def get_stock(stock_id):
         "stock_data":None
     }
 
-    # timeString=datetime.datetime.now() + datetime.timedelta(hours=8) # AWS EC2，EC2的系統時間較台灣時間慢8小時
-    # timeString=timeString.strftime("%Y_%m_%d") # AWS EC2，EC2的系統時間較台灣時間慢8小時
-    timeString = datetime.datetime.now().strftime("%Y_%m_%d") # localhost
+    timeString=datetime.datetime.now() + datetime.timedelta(hours=8) # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    timeString=timeString.strftime("%Y_%m_%d") # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    # timeString = datetime.datetime.now().strftime("%Y_%m_%d") # localhost
 
     json_filename=stock_id+"-"+timeString+".json"
     cdn_stock_data=requests.get(cdn_url+json_filename) # 確認cdn上有無資料
@@ -127,8 +125,7 @@ def get_stock_EPS(stock_id):
     data["stock_data"]=stock_eps_roe
     return data
 
-def get_last_data_from_dict(data): 
-    # print(data)   
+def get_last_data_from_dict(data):  
     return data[len(data)-1] # df.to_dict('index')是將資料以index作為key的dict，但dict的資料無順序性，如要取最新的一筆資料須得到最大的index值
 
 
@@ -180,3 +177,8 @@ def rename_news_source(news_source):
     if news_source in source_list:
         return source_list[news_source]
     return news_source
+
+@app_stock.route("/time", methods=["GET"]) # 確定伺服器時間
+def get_server_time():
+    timeString=datetime.datetime.now()
+    return {"data":timeString}

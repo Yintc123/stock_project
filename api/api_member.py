@@ -130,8 +130,6 @@ def renew_member(member_id):
     email_verification=request.form.get("email_verification")
     password=request.form.get("password")
     photo=request.files.get("photo") # js回傳null，python讀取為字串null非None
-    print(email)
-    print(photo)
 
     member_info={
         "username":username,
@@ -217,7 +215,6 @@ url_member_id_stock="/member/<member_id>/<stock_id>"
 @app_member.route(url_member_id_stock, methods=["GET"])
 def get_favorite_stock(member_id, stock_id):
     data={"data":None}
-    print(member_id, stock_id)
     mb_db=member_db()
     data["data"]=mb_db.get_favorite_stock(member_id)
     return data
