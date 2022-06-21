@@ -11,13 +11,13 @@ class gmail_module():
         self.gmail_token=dotenv_values(env)["gmail_token"]
         self.server=None
         self.msg=email.message.EmailMessage()
-        self.msg["From"]="yiqazwsx123@gmail.com"
+        self.msg["From"]=dotenv_values(env)["gmail"]
         self.msg["To"]=member_email
         self.msg["Subject"]=subject
 
     def connection(self):
         self.server=smtplib.SMTP_SSL("smtp.gmail.com", 465) # 建立gmail伺服器連線
-        self.server.login("yiqazwsx123@gmail.com", "skslnlvbwqjmvppj")
+        self.server.login(dotenv_values(env)["gmail"], self.gmail_token)
 
     def close(self):
         self.server.close()

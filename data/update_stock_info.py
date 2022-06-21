@@ -4,12 +4,10 @@ from api.finmind_module import fm
 from api.api_aws import Aws_s3_api
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-timeString=datetime.datetime.now() + datetime.timedelta(hours=8) # AWS EC2，EC2的系統時間較台灣時間慢8小時
-timeString=timeString.strftime("%Y_%m_%d") # AWS EC2，EC2的系統時間較台灣時間慢8小時
-# timeString = datetime.datetime.now().strftime("%Y_%m_%d") # localhost
-
-
 def update_cdn_TAIEX(): #每12小時自動更新一次TAIEX資料
+    timeString=datetime.datetime.now() + datetime.timedelta(hours=8) # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    timeString=timeString.strftime("%Y_%m_%d") # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    # timeString = datetime.datetime.now().strftime("%Y_%m_%d") # localhost
     stock={
         "stock_transaction":[],
         "stock_data":None
@@ -23,6 +21,9 @@ def update_cdn_TAIEX(): #每12小時自動更新一次TAIEX資料
     return 0
 
 def update_cdn_top_stocks_news(): # 每8小時自動更新一次新聞資料
+    timeString=datetime.datetime.now() + datetime.timedelta(hours=8) # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    timeString=timeString.strftime("%Y_%m_%d") # AWS EC2，EC2的系統時間較台灣時間慢8小時
+    # timeString = datetime.datetime.now().strftime("%Y_%m_%d") # localhost
     top_stocks=["2330", "2317", "2454", "2412", "6505"] # 台股前五權值股
     threads=[]
     temp=[]
