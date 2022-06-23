@@ -4,8 +4,10 @@ body {
     grid-template-columns: 1fr 8fr 1fr;
     grid-template-rows: 50px minmax(500px, auto) 100px;
     /* position:relative; */
-    width:100%;
+    max-width:100%;
     background-color:#fff5ee;
+    margin:0px;
+    padding:0px;
 }
 
 @media screen and (max-width:610px){
