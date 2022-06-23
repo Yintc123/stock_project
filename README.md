@@ -42,5 +42,35 @@ https://yin888.info/
 ![pic_web_framework](readme_pictures/web_framework.png)
 
 ## 使用工具
+*   AWS
+    *   EC2
+    *   RDS
+    *   S3
+    *   CloudFront
+*   Python
+    *   flask
+    *   FinMind
+    *   twstock
+    *   jwt
+    *   boto3
+    *   pandas
+    *   smtplib
+    *   concurrent.futures
+    *   pywebpush
+    *   flask_apscheduler
+    *   dotenv
+    *   mysql.connector.pooling
+*   JavaScript
+    *   TradingView
+    *   Service Workers
+*   Others
+    *   Docker
+    *   nginx
+    *   git
 
 ## 問題解決
+### 發生問題：網頁讀取速度過久(首頁約需15秒的讀取時間)
+### 尋找真因：
+*   大盤歷史股價及成交量數據量過大(透過api送出需求至回傳時間約需1.5秒)
+*   各股新聞(透過api送出需求至回傳時間約需1-3秒不等，依各股新聞數量決定)
+### 解決方案：
