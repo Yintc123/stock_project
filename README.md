@@ -90,7 +90,7 @@ https://yin888.info/
     *   TradingView
     <br/>提供各式金融圖表。 ( https://tw.tradingview.com/lightweight-charts/ )
     *   Service Workers
-    <br/>瀏覽器後台運行的proccess，實作推播功能。
+    <br/>瀏覽器後台運行的程序，實作推播功能。
 *   Others
     *   Docker
     <br/>輕量級的虛擬化技術，跨平台部屬專案。
