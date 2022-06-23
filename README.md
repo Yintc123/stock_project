@@ -47,14 +47,19 @@ https://yin888.info/
 ## 使用工具
 *   AWS
     *   EC2
+    <br/>可擴展的運算容量，部署網頁應用程式。
     *   RDS
+    <br/>雲端關聯式資料庫。
     *   S3
+    <br/>雲端物件儲存，用於儲存會員圖片及數據量龐且須日更新的股價和新聞資料，避免浪費資料庫資源。
     *   CloudFront
+    <br/>低延遲內容交付網路(CDN)，減少透過api拿取資料造成的延遲。
 *   Python
     *   flask
     *   FinMind
     *   twstock
     *   jwt
+    *   session
     *   boto3
     *   pandas
     *   smtplib
@@ -63,6 +68,7 @@ https://yin888.info/
     *   flask_apscheduler
     *   dotenv
     *   mysql.connector.pooling
+    *   bs4
 *   JavaScript
     *   TradingView
     *   Service Workers
@@ -72,7 +78,7 @@ https://yin888.info/
     *   git
 
 ## 問題解決
-### 發生問題：網頁讀取速度過久(首頁約需15秒的讀取時間)
+### 發生問題：首頁讀取時間過久(約需15秒)
 ### 尋找真因：
 *   大盤歷史股價及成交量數據量過大(透過api送出需求至回傳時間約需 1.5 秒)
 *   各股新聞(透過api送出需求至回傳時間約需 1-3 秒不等，依各股新聞數量決定)
@@ -83,7 +89,7 @@ https://yin888.info/
     * 無法即時更新資料
     * 容量僅約 5 MB
 - [X] AWS S3
-    * 透過 AWS CloudFront 將資料緩存至 CDN 提供商位於全球各地的多個伺服器節點
+    * 透過 AWS CloudFront 將資料緩存至全球各地的多個伺服器節點
     * 提升所有requests的存取速度
     * 即時更新資料
 
