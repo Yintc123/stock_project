@@ -41,7 +41,7 @@ https://yin888.info/
 ## 網頁架構
 ![pic_web_framework](readme_pictures/web_framework.png)
 
-### 資料獲取流程圖
+#### 資料獲取流程圖
 <img src="readme_pictures/process_chart.png" width="500px">
 
 ## 使用工具
@@ -83,7 +83,7 @@ https://yin888.info/
     * 無法即時更新資料
     * 容量僅約 5 MB
 - [X] AWS S3
-    * 將資料緩存至CDN提供商位於全球各地的多個伺服器節點
+    * 透過 AWS CloudFront 將資料緩存至CDN提供商位於全球各地的多個伺服器節點
     * 提升所有requests的存取速度
     * 即時更新資料
 
