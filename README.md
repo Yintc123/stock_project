@@ -41,7 +41,9 @@ https://yin888.info/
 ## 網頁架構
 ![pic_web_framework](readme_pictures/web_framework.png)
 
+### 資料獲取流程圖
 <img src="readme_pictures/process_chart.png" width="500px">
+
 ## 使用工具
 *   AWS
     *   EC2
