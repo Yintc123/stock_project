@@ -49,33 +49,52 @@ https://yin888.info/
     *   EC2
     <br/>可擴展的運算容量，部署網頁應用程式。
     *   RDS
-    <br/>雲端關聯式資料庫。
+    <br/>雲端關聯式資料庫，此專案使用其中 MySQL 資料庫。
     *   S3
     <br/>雲端物件儲存，用於儲存會員圖片及數據量龐且須日更新的股價和新聞資料，避免浪費資料庫資源。
     *   CloudFront
-    <br/>低延遲內容交付網路(CDN)，減少透過api拿取資料造成的延遲。
+    <br/>低延遲內容交付網路 ( CDN ) ，避免透過 api 拿取資料造成的網頁延遲。
 *   Python
     *   flask
+    <br/>開發網頁應用框架。
     *   FinMind
+    <br/>提供台股的各方面資訊及新聞，此專案大多資訊由 FinMind 提供。 ( https://finmindtrade.com/ )
     *   twstock
+    <br/>提供各股的即時股價資訊。 ( https://twstock.readthedocs.io/zh_TW/latest/ )
     *   jwt
+    <br/>保存會員登入狀態、身分認證及挾帶非私密的資料。
     *   session
+    <br/>暫存 email 的驗證碼。
     *   boto3
+    <br/>AWS 開發套件，上傳資料至 AWS S3 。
     *   pandas
+    <br/>資料操作分析， FinMind 回傳的資料為 DataFrame 結構。
     *   smtplib
+    <br/>Simple Mail Transfer Protocol ( SMTP ) 寄送電子郵件。
     *   concurrent.futures
+    <br/>Python 的平行處理模組，同時執行多個任務 ( tasks ) 。
     *   pywebpush
+    <br/>Python 的網頁推播模組，將訊息由伺服器主動傳送至 service workers ，以完成網頁推播功能。
     *   flask_apscheduler
+    <br/>Python 的排程模組，於每日9點啟動監控設定到價通知股票的即時股價、每日9點及18點啟動更新大盤資訊及每8小時啟動更新台股5大權值股相關新聞資訊。
     *   dotenv
+    <br/>取用.env的資訊，避免洩漏私密資訊。
     *   mysql.connector.pooling
+    <br/>使用連線池，有效利用資料庫資源。
     *   bs4
+    <br/>網頁爬蟲，特定資料須透過網站取得，如 goodinfo 及台灣證交所。 ( https://goodinfo.tw/tw/index.asp / https://www.twse.com.tw/zh/ )
 *   JavaScript
     *   TradingView
+    <br/>提供各式金融圖表。 ( https://tw.tradingview.com/lightweight-charts/ )
     *   Service Workers
+    <br/>瀏覽器後台運行的proccess，實作推播功能。
 *   Others
     *   Docker
+    <br/>輕量級的虛擬化技術，跨平台部屬專案。
     *   nginx
+    <br/>網頁伺服器，此專案應用其反向代理 ( Reverse Proxy ) 的功能。
     *   git
+    <br/>版本控管工具。
 
 ## 問題解決
 ### 發生問題：首頁讀取時間過久(約需15秒)
@@ -84,13 +103,15 @@ https://yin888.info/
 *   各股新聞(透過api送出需求至回傳時間約需 1-3 秒不等，依各股新聞數量決定)
 ### 解決方案：
 - [ ] Local storage
-    * 將資料儲存至本機端
-    * 提升個人瀏覽器的存取速度
-    * 無法即時更新資料
-    * 容量僅約 5 MB
+    * 將資料儲存至本機端。
+    * 提升個人瀏覽器的存取速度。
+    * 無法即時更新資料。
+    * 容量僅約 5 MB。
 - [X] AWS S3
-    * 透過 AWS CloudFront 將資料緩存至全球各地的多個伺服器節點
-    * 提升所有requests的存取速度
-    * 即時更新資料
+    * 透過 AWS CloudFront 將資料緩存至全球各地的多個伺服器節點。
+    * 提升所有requests的存取速度。
+    * 即時更新資料。
+- [x] 平行處理各股新聞的資料
+    * 依各股數量需多次透過 api 取得不同各股的新聞資料，如僅使用單一執行緒的處理時間為 T1 + T2 + ... + Ti；使用多執行緒則為 Ti (Ti為最費時的request)。
 
 避免使用者等待讀取時間過久以及確保使用者能得到最新資訊，於每日的 9 點及 18 點自動更新大盤的股價資訊確保資料為最新的資訊；每 8 小時自動更新台股五大權值股的新聞。
