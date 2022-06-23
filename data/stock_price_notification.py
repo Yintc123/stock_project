@@ -10,6 +10,7 @@ import twstock
 twstock.realtime.mock = False
 
 def send_notification():
+    send_mail("yiqazwsx123@gmail.com", "到通知開始")
     while(True):
         mb_db=member_db()
         favorite=mb_db.get_all_favorite_stock()
