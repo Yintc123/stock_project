@@ -78,6 +78,6 @@ def send_mail(email, msg): # mail通知
 
 scheduler=APScheduler()
 # scheduler.add_job(id="task1", func=send_notification, trigger='interval', seconds=15) # for test
-scheduler.add_job(id="task1", func=send_notification, trigger='cron', day_of_week='mon-fri', hour=13, minute=13) # 周一至周五早上9點(台灣時間)啟動function
+scheduler.add_job(id="task1", func=send_notification, trigger='cron', day_of_week='mon-fri', hour=1) # 周一至周五早上9點(台灣時間)啟動function
 # aws ec2的時間為台灣時間-8 h
 scheduler.start()

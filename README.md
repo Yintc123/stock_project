@@ -44,6 +44,9 @@ https://yin888.info/
 #### 資料獲取流程圖
 <img src="readme_pictures/process_chart.png" width="500px">
 
+#### 到價通知流程圖
+<img src="readme_pictures/process_chart_2.png">
+
 ## 使用工具
 *   AWS
     *   EC2
@@ -112,6 +115,6 @@ https://yin888.info/
     * 提升所有requests的存取速度。
     * 即時更新資料。
 - [x] 平行處理各股新聞的資料
-    * 依各股數量需多次透過 api 取得不同各股的新聞資料，如僅使用單一執行緒的處理時間為 T1 + T2 + ... + Ti；使用多執行緒則為 Ti (Ti為最費時的request)。
+    * 依各股數量需多次透過 api 取得不同各股的新聞資料，如僅使用單一執行緒的處理時間為 T1 + T2 + ... + Ti；使用多執行緒則為 Ti ( Ti為最費時的request )。
 
 避免使用者等待讀取時間過久以及確保使用者能得到最新資訊，於每日的 9 點及 18 點自動更新大盤的股價資訊確保資料為最新的資訊；每 8 小時自動更新台股五大權值股的新聞。
