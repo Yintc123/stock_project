@@ -36,5 +36,5 @@ app.register_blueprint(app_email, url_prefix="/api")
 app.register_blueprint(app_message, url_prefix="/api")
 app.register_blueprint(app_webpush, url_prefix="/api")
 
-app.debug=True
+# app.debug=True
 app.run(host=dotenv_values(env)["app_host"], port=5000)

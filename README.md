@@ -1,4 +1,4 @@
-# stock_project 台灣股票資訊
+# Stock Project 台灣股票資訊
 
 ## 網址
 https://yin888.info/
