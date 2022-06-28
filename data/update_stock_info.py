@@ -43,6 +43,6 @@ def update_cdn_top_stocks_news(): # 每8小時自動更新一次新聞資料
 scheduler=APScheduler()
 scheduler.add_job(id="update_task1", func=update_cdn_TAIEX, trigger='cron', day_of_week='mon-fri', hour=1) # 周一至周五早上9點(台灣時間)啟動function
 scheduler.add_job(id="update_task2", func=update_cdn_TAIEX, trigger='cron', day_of_week='mon-fri', hour=10) # 周一至周五晚上6點(台灣時間)啟動function
-scheduler.add_job(id="update_task3", func=update_cdn_top_stocks_news, trigger='interval', hours=8) # 每8小時更新一次五大權值股新聞
+scheduler.add_job(id="update_task3", func=update_cdn_top_stocks_news, trigger='interval', hours=4) # 每4小時更新一次五大權值股新聞
 # aws ec2的時間為台灣時間-8 h
 scheduler.start()
