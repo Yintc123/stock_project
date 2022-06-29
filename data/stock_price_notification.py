@@ -10,14 +10,11 @@ import twstock
 twstock.realtime.mock = False
 
 def send_notification():
-    send_mail("yiqazwsx123@gmail.com", "到價通知開始")
     while(True):
-        send_mail("yiqazwsx123@gmail.com", "while迴圈")
         mb_db=member_db()
         favorite=mb_db.get_all_favorite_stock()
         target_stk_list=[]
         notification_list={}
-        send_mail("yiqazwsx123@gmail.com", "favorite："+json.dumps(favorite))
         for stock in favorite:
             if not stock["price"]:
                 continue
@@ -31,12 +28,10 @@ def send_notification():
             notification_list[stock["stock_id"]].append(user_dict)
 
         if target_stk_list: # 有設定到價通知才執行以下程式碼
-            send_mail("yiqazwsx123@gmail.com", target_stk_list)
             realtime_data=get_realtime_data(target_stk_list)
             realtime_data.pop('success', None) # 去除不必要的資訊
             clock=None
             for stock_id in realtime_data:
-                send_mail("yiqazwsx123@gmail.com", stock_id)
                 clock=realtime_data[stock_id]["timestamp"]
                 check_realtime_price(stock_id, realtime_data[stock_id]["realtime"]["low"], realtime_data[stock_id]["realtime"]["high"], notification_list[stock_id], mb_db)   
             clock=time.strftime("%H", time.localtime(clock))
@@ -84,8 +79,10 @@ def send_mail(email, msg): # mail通知
     gmail.send_message(msg)
     return 0
 
-scheduler=APScheduler()
-# scheduler.add_job(id="task1", func=send_notification, trigger='interval', seconds=15) # for test
-scheduler.add_job(id="task1", func=send_notification, trigger='cron', day_of_week='mon-fri', hour=1, minute=2) # 周一至周五早上9點(台灣時間)啟動function
-# aws ec2的時間為台灣時間-8 h
-scheduler.start()
+# scheduler=APScheduler()
+# # scheduler.add_job(id="task1", func=send_notification, trigger='interval', seconds=15) # for test
+# scheduler.add_job(id="task1", func=send_notification, trigger='cron', day_of_week='mon-fri', hour=1, minute=2) # 周一至周五早上9點(台灣時間)啟動function
+# # aws ec2的時間為台灣時間-8 h
+# scheduler.start()
+
+send_notification()
