@@ -171,6 +171,7 @@ def rename_news_source(news_source):
     source_list={
         "鉅亨新聞":"Anue鉅亨",
         "鉅亨網":"Anue鉅亨",
+        "cnyes.com":"Anue鉅亨",
         "Yahoo奇摩新聞":"Yahoo奇摩股市",
         "Apple Daily TW":"蘋果新聞網",
     }
