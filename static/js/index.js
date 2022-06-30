@@ -37,7 +37,9 @@ const news_trademark={
     "台視":"https://www.ttv.com.tw/finance/images/TTV-Finance_logo200.png",
     "鉅亨新聞":"https://sfiles.cnyes.cool/fe-common/ccbabd1c/ac25a5abb8fcbdfddb46fa4e9bca6b06.svg",
     "CTWANT":"https://static.ctwant.com/images/dist/logo.svg",
-    "EBC東森財經新聞":"https://img-fnc.ebc.net.tw/EbcFnc/logoes/pc_logo.png"
+    "EBC東森財經新聞":"https://img-fnc.ebc.net.tw/EbcFnc/logoes/pc_logo.png",
+    "橘世代":"https://orange.udn.com/img/logo_orange.svg",
+    "HiNet 新聞社群":"https://times.hinet.net/resources/images/logo.jpg"
 };
 
 
@@ -64,7 +66,7 @@ async function init(){
         news_data=resp;
         reorder_news_data(news_data);
         create_news_columns(news_data);
-        // console.log(news_data);
+        console.log(news_data);
     }).then(() => {
         search.hide_loading();
     })
