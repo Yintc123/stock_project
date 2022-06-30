@@ -5,6 +5,7 @@ body {
     grid-template-rows: 50px minmax(500px, auto) 100px;
     /* position:relative; */
     max-width:100%;
+    /* background-color:#EFEFDA; */
     background-color:#fff5ee;
     margin:0px;
     padding:0px;

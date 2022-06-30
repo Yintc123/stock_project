@@ -55,7 +55,7 @@ async function init(){
     stock.get_stock("TAIEX").then(resp => {
         TAIEX_data=resp;
         chart_parameter.chart=trading_view.load_chart("Magnet", TAIEX_data["stock_transaction"], chart_type);
-        console.log(TAIEX_data);
+        // console.log(TAIEX_data);
     }).then(() => {
         // search.hide_loading();
     })
@@ -69,9 +69,9 @@ async function init(){
         search.hide_loading();
     })
 
-    stock.get_server_time().then(resp => {
-        console.log(resp);
-    })
+    // stock.get_server_time().then(resp => {
+    //     console.log(resp);
+    // })
 }
 
 function create_news_columns(raw_data){

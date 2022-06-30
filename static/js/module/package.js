@@ -28,8 +28,8 @@ const url={
     }
 };
 
-const env="prod";
-// const env="dev";
+// const env="prod";
+const env="dev";
 
 export const url_mode=url[env];
 export default url_mode;

@@ -1,3 +1,4 @@
+import datetime
 import json
 import time
 from data.member_db import member_db
@@ -10,6 +11,7 @@ import twstock
 twstock.realtime.mock = False
 
 def send_notification():
+    send_mail("yiqazwsx123@gmail.com", "到價通知開始")
     while(True):
         mb_db=member_db()
         favorite=mb_db.get_all_favorite_stock()
@@ -30,19 +32,22 @@ def send_notification():
         if target_stk_list: # 有設定到價通知才執行以下程式碼
             realtime_data=get_realtime_data(target_stk_list)
             realtime_data.pop('success', None) # 去除不必要的資訊
-            clock=None
+            # clock=None
             for stock_id in realtime_data:
-                clock=realtime_data[stock_id]["timestamp"]
+                # clock=realtime_data[stock_id]["timestamp"]
                 check_realtime_price(stock_id, realtime_data[stock_id]["realtime"]["low"], realtime_data[stock_id]["realtime"]["high"], notification_list[stock_id], mb_db)   
-            clock=time.strftime("%H", time.localtime(clock))
-            send_mail("yiqazwsx123@gmail.com", ("時間戳："+clock))
-            if clock=="14": # 14點時關閉apscheduler
-                send_mail("yiqazwsx123@gmail.com", "股價監控關閉")
-                break
-            time.sleep(120) # 每2分鐘確認一次即時股票資訊
-        else: # 未設定到價通知才執行以下程式碼
-            send_mail("yiqazwsx123@gmail.com", "未設定到價通知")
-            time.sleep(120) # 每2分鐘確認一次即時股票資訊
+            # clock=time.strftime("%H", time.localtime(clock))
+            # send_mail("yiqazwsx123@gmail.com", ("時間戳："+clock))
+            
+
+        clock=datetime.datetime.now()
+        clock=clock.strftime("%H")
+        if clock=="07": # (15-8)點時關閉apscheduler
+            send_mail("yiqazwsx123@gmail.com", "股價監控關閉")
+            break
+
+        time.sleep(120) # 每2分鐘確認一次即時股票資訊
+
     send_mail("yiqazwsx123@gmail.com", "到價通知結束")
 
 def get_realtime_data(stk_list):
@@ -51,7 +56,7 @@ def get_realtime_data(stk_list):
 def check_realtime_price(stock_id, stock_price_low, stock_price_high, notification_list, db):   
     for user in notification_list:
         if float(stock_price_low) <= user["price"] and user["price"] <= float(stock_price_high): # 觸發到價通知
-            send_mail("yiqazwsx123@gmail.com", (stock_id + "觸發到價通知"))
+            # send_mail("yiqazwsx123@gmail.com", (stock_id + "觸發到價通知"))
             member=db.get_member(None, user["user_id"])
             msg=stock_id+"已達到您設定的價格"+str(user["price"])
             with ThreadPoolExecutor(max_workers=2) as executor: # 平行任務處理 ( 非同步 ) 的功能，能夠同時處理多個任務
@@ -79,10 +84,8 @@ def send_mail(email, msg): # mail通知
     gmail.send_message(msg)
     return 0
 
-# scheduler=APScheduler()
-# # scheduler.add_job(id="task1", func=send_notification, trigger='interval', seconds=15) # for test
-# scheduler.add_job(id="task1", func=send_notification, trigger='cron', day_of_week='mon-fri', hour=1, minute=2) # 周一至周五早上9點(台灣時間)啟動function
-# # aws ec2的時間為台灣時間-8 h
-# scheduler.start()
+scheduler=APScheduler()
+scheduler.add_job(id="task1", func=send_notification, trigger='cron', day_of_week='mon-fri', hour=1, minute=2) # 周一至周五早上9點(台灣時間)啟動function
+# aws ec2的時間為台灣時間-8 h
+scheduler.start()
 
-send_notification()
