@@ -11,6 +11,12 @@ body {
     padding:0px;
 }
 
-@media screen and (max-width:610px){
+button{
+    cursor:pointer;
+}
 
+@media screen and (max-width:610px){
+    body{
+        grid-template-rows: 100px minmax(500px, auto) 100px;
+    }
 }

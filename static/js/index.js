@@ -101,6 +101,7 @@ function create_news_trademark(source, first_news_link){
     const img_trademark=document.createElement("img");
     const a_news=document.createElement("a");
     a_news.href=first_news_link;
+    a_news.target="_blank"; // 點擊新聞，另開分頁
     trademark.className="trademark";
     img_trademark.src=news_trademark[source];
     if (source=="ETtoday財經雲"){
@@ -131,6 +132,7 @@ function create_news_title(data){
         const a_news_titles=document.createElement("a");
         a_news_titles.textContent=data[i]["title"];
         a_news_titles.href=data[i]["link"];
+        a_news_titles.target="_blank";
         h3_news_titles.appendChild(a_news_titles);
         news_titles.appendChild(h3_news_titles);
     }

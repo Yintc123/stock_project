@@ -1,11 +1,12 @@
 /* content */
 #button_reset{
-    position:absolute;
+    /* position:absolute; */
     font-size:16px;
     padding:5px;
-    top:50%;
-    right:5px;
-    transform:translate(-50%, -50%);
+    /* top:50%; */
+    /* right:5px; */
+    /* transform:translate(-50%, -50%); */
+    margin-top:10px;
     border-radius: 5px;
 }
 
@@ -92,10 +93,4 @@
 #div_stock_info{
     height:200px;
     border:1px solid;
-}
-
-@media screen and (max-width:610px){
-    #button_reset{
-        right:-40px;
-    }
 }
