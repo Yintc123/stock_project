@@ -72,71 +72,73 @@
             </div>
         </div>
         <div id="container_content">
-            <div id="div_member_button">
-                <ul>
-                    <li><button id="button_favorite_frame">管理</button></li>
-                    <li><button id="button_member_frame">會員</button></li>
-                </ul>
-            </div>
-            <div id="frame_member_info">
-                <div id="div_member_photo_frame">
-                    <div id="div_photo">
-                        <img id="img_member_photo" class="member_photo"/>
-                        <input type="file" id='img_uploader' data-target='file-uploader' accept='image/png, image/jpeg'/>
-                    </div>
-                    <img id='changing_photo' src="{{url_for('static', filename='/icon/camera.jpg')}}"/>
-                </div>
-                <div id="div_member_info">
-                    <div id="p_member_info">
-                        <p>名稱：</p>
-                        <p>Email：</p>
-                        <p class="email_verification">Email驗證碼：</p>
-                        <p>密碼：</p>
-                    </div>
-                    <div id="member_info">
-                        <p id="member_username">test</p>
-                        <p>
-                            <span id="member_email">test</span>
-                            <span><img id="verification_icon"></span>
-                            <span id="pass_msg">已驗證</span>
-                            <span id="fail_msg">未驗證</span>
-                        </p>
-                        <p id="member_password"><span id="span_password">******</span><img id="open_eye" class="eyes" src="/static/icon/eye.png"><img id="close_eye" class="eyes" src="/static/icon/closed_eye.png"></p>
-                    </div>
-                    <div id="input_member_info">
-                        <ul>
-                            <li><input id="input_username_renew" type="text" placeholder="請輸入名稱"></li>
-                            <li><input id="input_email_renew" type="text" placeholder="請輸入email" readonly="true"><button id="change_email_button">變更信箱</button></li>
-                            <li class="email_verification"><input id="input_email_verify" type="text" placeholder="請輸入email驗證碼"><button id="email_button">傳送驗證碼</button></li>
-                            <li><input id="input_password_renew" type="password" placeholder="請輸入密碼"></li>
-                        </ul>
-                    </div>   
-                </div>
-                <div id="div_message">
-                    <p id="p_resp_message">message</p>
-                </div>
-                <div id="div_switch_button">
+            <div id="div_content">
+                <div id="div_member_button">
                     <ul>
-                        <li><button id="change_button">修改會員資訊</button></li>
-                        <li><button class="li_renew_button" id="cancel_button">取消</button></li>
-                        <li><button class="li_renew_button" id="submit_button">送出</button></li>
+                        <li><button id="button_favorite_frame">管理</button></li>
+                        <li><button id="button_member_frame">會員</button></li>
                     </ul>
                 </div>
-            </div>
-            <div id="frame_favorite">
-                <table id="table_favorite" border="1">
-                    <tr>
-                        <td>項目</td>
-                        <td>關注</td>
-                        <td>股票代號</td>
-                        <td>股票名稱</td>
-                        <td>到價通知</td>
-                    </tr>
-                </table>
-                <div id="div_note">
-                    <p>註：點擊星形圖案取消關注</p>
-                    <button id="button_web_push">到價推播</button>
-                    <button id="button_web_push_cancel">測試通知</button>
+                <div id="frame_member_info">
+                    <div id="div_member_photo_frame">
+                        <div id="div_photo">
+                            <img id="img_member_photo" class="member_photo"/>
+                            <input type="file" id='img_uploader' data-target='file-uploader' accept='image/png, image/jpeg'/>
+                        </div>
+                        <img id='changing_photo' src="{{url_for('static', filename='/icon/camera.jpg')}}"/>
+                    </div>
+                    <div id="div_member_info">
+                        <div id="p_member_info">
+                            <p>名稱：</p>
+                            <p>Email：</p>
+                            <p class="email_verification">Email驗證碼：</p>
+                            <p>密碼：</p>
+                        </div>
+                        <div id="member_info">
+                            <p id="member_username">test</p>
+                            <p>
+                                <span id="member_email">test</span>
+                                <span><img id="verification_icon"></span>
+                                <span id="pass_msg">已驗證</span>
+                                <span id="fail_msg">未驗證</span>
+                            </p>
+                            <p id="member_password"><span id="span_password">******</span><img id="open_eye" class="eyes" src="/static/icon/eye.png"><img id="close_eye" class="eyes" src="/static/icon/closed_eye.png"></p>
+                        </div>
+                        <div id="input_member_info">
+                            <ul>
+                                <li><input id="input_username_renew" type="text" placeholder="請輸入名稱"></li>
+                                <li><input id="input_email_renew" type="text" placeholder="請輸入email" readonly="true"><button id="change_email_button">變更信箱</button></li>
+                                <li class="email_verification"><input id="input_email_verify" type="text" placeholder="請輸入email驗證碼"><button id="email_button">傳送驗證碼</button></li>
+                                <li><input id="input_password_renew" type="password" placeholder="請輸入密碼"></li>
+                            </ul>
+                        </div>   
+                    </div>
+                    <div id="div_message">
+                        <p id="p_resp_message">message</p>
+                    </div>
+                    <div id="div_switch_button">
+                        <ul>
+                            <li><button id="change_button">修改會員資訊</button></li>
+                            <li><button class="li_renew_button" id="cancel_button">取消</button></li>
+                            <li><button class="li_renew_button" id="submit_button">送出</button></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="frame_favorite">
+                    <table id="table_favorite" border="1">
+                        <tr>
+                            <td>項目</td>
+                            <td>關注</td>
+                            <td>股票代號</td>
+                            <td>股票名稱</td>
+                            <td>到價通知</td>
+                        </tr>
+                    </table>
+                    <div id="div_note">
+                        <p>註：點擊星形圖案取消關注</p>
+                        <button id="button_web_push">到價推播</button>
+                        <button id="button_web_push_cancel">測試通知</button>
+                    </div>
                 </div>
             </div>
         </div>
