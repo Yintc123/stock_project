@@ -207,7 +207,7 @@ function show_message(member_name, message, time){
     div_post_message.className="div_post_message";
     message_member_name.className="message_member_name";
     div_message.className="div_message";
-    message_member_name.textContent=member_name;
+    message_member_name.textContent=member_name+"：";
     div_message.textContent=message;
     const div_message_others=show_others(time);
     div_post_message.appendChild(message_member_name);

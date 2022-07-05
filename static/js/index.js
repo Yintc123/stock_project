@@ -39,7 +39,8 @@ const news_trademark={
     "CTWANT":"https://static.ctwant.com/images/dist/logo.svg",
     "EBC東森財經新聞":"https://img-fnc.ebc.net.tw/EbcFnc/logoes/pc_logo.png",
     "橘世代":"https://orange.udn.com/img/logo_orange.svg",
-    "HiNet 新聞社群":"https://times.hinet.net/resources/images/logo.jpg"
+    "HiNet 新聞社群":"https://times.hinet.net/resources/images/logo.jpg",
+    "科技新報":"https://technews.tw/wp-content/themes/twentytwelve/images/finance-logo.gif"
 };
 
 

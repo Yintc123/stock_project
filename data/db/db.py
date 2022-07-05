@@ -1,7 +1,7 @@
 import mysql.connector
 from dotenv import load_dotenv, dotenv_values
 
-env='.env.dev' # 執行環境
+env='.env' # 執行環境
 load_dotenv(override=True)
 
 mydb=mysql.connector.connect(
@@ -114,7 +114,9 @@ mycursor=mydb.cursor()
 # ---message_board table---
 # mycursor.execute("CREATE TABLE message_board (id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT, user_id BIGINT NOT NULL)")
 # mycursor.execute("ALTER TABLE message_board ADD stock_id VARCHAR(255) NOT NULL")
-# mycursor.execute("ALTER TABLE message_board ADD message VARCHAR(255) NOT NULL")
+# mycursor.execute("ALTER TABLE message_board ADD message TEXT NOT NULL")
 # mycursor.execute("ALTER TABLE message_board ADD FOREIGN KEY (stock_id) REFERENCES stock(stock_id)")
 # mycursor.execute("ALTER TABLE message_board ADD FOREIGN KEY (user_id) REFERENCES member(id)")
 # mycursor.execute("ALTER TABLE message_board ADD creation_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
+
+# mycursor.execute("ALTER TABLE message_board DROP message")

@@ -125,7 +125,6 @@ class member_db():
         try:
             favorite=self.get_favorite_stock(user_id)
             for dict in favorite:
-                print(dict)
                 if dict["stock_id"]==int(stock_id):
                     return self.response_text(0, "已添加成功")
             query_add_favorite="INSERT INTO favorite (user_id, stock_id) VALUES(%s, %s)"

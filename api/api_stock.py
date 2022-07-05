@@ -77,7 +77,7 @@ def get_stock(stock_id):
         "stock_transaction":[],
         "stock_data":None
     }
-
+    
     timeString=datetime.datetime.now() + datetime.timedelta(hours=8) # AWS EC2，EC2的系統時間較台灣時間慢8小時
     timeString=timeString.strftime("%Y_%m_%d") # AWS EC2，EC2的系統時間較台灣時間慢8小時
     # timeString = datetime.datetime.now().strftime("%Y_%m_%d") # localhost
@@ -95,6 +95,9 @@ def get_stock(stock_id):
         return error
     if stock_id !="TAIEX":
         stock["stock_data"]=get_last_data_from_dict(fm_sdk.get_stock_data(7))
+        if not stock["stock_data"]: # 如果有交易資料但無近期資料，個股已下市
+            error["message"]="無此股票資訊"
+            return error
         stock["stock_data"].update(fm_sdk.get_stock_eps())
 
         stock_data=stk.get_stock(stock_id)
@@ -125,7 +128,9 @@ def get_stock_EPS(stock_id):
     data["stock_data"]=stock_eps_roe
     return data
 
-def get_last_data_from_dict(data):  
+def get_last_data_from_dict(data):
+    if not data:
+        return None
     return data[len(data)-1] # df.to_dict('index')是將資料以index作為key的dict，但dict的資料無順序性，如要取最新的一筆資料須得到最大的index值
 
 
@@ -174,6 +179,7 @@ def rename_news_source(news_source):
         "cnyes.com":"Anue鉅亨",
         "Yahoo奇摩新聞":"Yahoo奇摩股市",
         "Apple Daily TW":"蘋果新聞網",
+        "ETtoday新聞雲":"ETtoday財經雲"
     }
     if news_source in source_list:
         return source_list[news_source]
