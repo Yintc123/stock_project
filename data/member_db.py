@@ -70,6 +70,11 @@ class member_db():
                 "photo":photo,
                 "email_status":email_status
             }
+
+            for info in member_info:
+                if member_info[info]=='null':
+                    member_info[info]=None
+            
             query_renew_member="UPDATE member set {}=%s WHERE id="+user_id
 
             self.connection()
@@ -87,7 +92,7 @@ class member_db():
             return self.response_text(0, "會員資訊更新成功")
         except:
             self.close()
-            # print("error in renew_member.")
+            print("error in renew_member.")
             message="500 internal database error."
             return self.response_text(1, message)
 

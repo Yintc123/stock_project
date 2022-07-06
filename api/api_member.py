@@ -89,6 +89,7 @@ def signIn_member():
         error["message"]="密碼輸入錯誤"
         return error
 
+    print(member_info)
     resp=make_response({"ok":True, "message":"登入成功!"})
     for info in member["data"]:
         if info=="photo" and member_info[info]:
@@ -169,7 +170,7 @@ def renew_member(member_id):
         timeString = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S") # 由於時間不會重複，圖片以時間命名，以免使用cdn系統抓到同名但內容的圖片
         img_filename=s3.upload_data(file, img_format, timeString)
         member_info["photo"]=dotenv_values(env)["url_cdn"]+img_filename # 更新圖片路徑
-    
+
     mb_db=member_db()
     result=mb_db.renew_member(member_id, username, email, password, img_filename, member_info["email_status"])
 
