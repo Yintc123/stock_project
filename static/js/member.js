@@ -15,7 +15,7 @@ async function init(){
     }
     // console.log(member_info)
 
-    show_favorite_stock_in_table(member_info["data"]["favorite"])
+    show_favorite_stock_in_table(member_info["data"]["favorite"]);
     show_member_info(member_info["data"]);
     show_email_verification_icon(member_info["data"]["email_status"]);
     member.show_nav_member(member_info["data"]);
@@ -164,13 +164,14 @@ function show_favorite_stock_in_table(favorite){
 function create_tr(favorite, needs){
     const tr_stock_info=document.createElement("tr");
     tr_stock_info.id="tr"+favorite[needs[2]];
+    tr_stock_info.className="tr_favorite";
     for (let i=0;i<needs.length;i++){
         const th_stock_info=document.createElement("td");
         if(i==1){
             th_stock_info.style.backgroundImage=favorite["favorite"];
             th_stock_info.className="yellow_star";
             th_stock_info.id="yellow_star"+favorite[needs[2]];
-            add_star_event(th_stock_info, favorite[needs[2]]);
+            add_star_event(th_stock_info, favorite[needs[2]], favorite["index"]);
             tr_stock_info.append(th_stock_info);
             continue;
         }else if (i==2){
@@ -187,15 +188,21 @@ function create_tr(favorite, needs){
     return tr_stock_info;
 }
 
-function add_star_event(obj, stk_id){
+function add_star_event(obj, stk_id, index){
     obj.addEventListener("click", async () => {
-        let tr_id="#tr"+stk_id;
-        const table_favorite=document.querySelector("#table_favorite");
-        const tr=document.querySelector(tr_id);
-        table_favorite.removeChild(tr);
+        let favorite=member_info["data"]["favorite"];
+        favorite.splice(index-1, 1); // 去除favorite stock
+        // let tr_id="#tr"+stk_id;
+        // const table_favorite=document.querySelector("#table_favorite");
+        const tr_favorite=document.querySelectorAll(".tr_favorite");
+        for (let i=0;i<tr_favorite.length;i++){
+            tr_favorite[i].remove(); //刪除favorite table的tr
+        }
+        show_favorite_stock_in_table(favorite); // 重新產生favorite table
+        // const tr=document.querySelector(tr_id);
+        // table_favorite.removeChild(tr);
         const response=await member.delete_favorite_stock(member_info["data"]["id"], stk_id);
         // console.log(response);
-        
     })
 }
 
@@ -377,12 +384,15 @@ button_web_push_cancel.addEventListener("click", async () => {
 })
 // ----------M(Model)---------
 function arrange_favorite_list(lst){
-    let new_lst=JSON.parse(JSON.stringify(lst)) //深拷貝，避免汙染原始資料
+    // let new_lst=JSON.parse(JSON.stringify(lst)) //深拷貝，避免汙染原始資料
+    let new_lst=lst;
+    console.log(new_lst)
     for(let i=0;i<new_lst.length;i++){
         new_lst[i]["favorite"]="url('/static/icon/yellow_star.png')";
         if(new_lst[i]["price"]==0 || new_lst[i]["price"]==null){
             new_lst[i]["price"]="未設定";
         }
+        new_lst[i]["index"]=i+1;
     }
     return new_lst;
 }
