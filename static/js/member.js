@@ -386,7 +386,6 @@ button_web_push_cancel.addEventListener("click", async () => {
 function arrange_favorite_list(lst){
     // let new_lst=JSON.parse(JSON.stringify(lst)) //深拷貝，避免汙染原始資料
     let new_lst=lst;
-    console.log(new_lst)
     for(let i=0;i<new_lst.length;i++){
         new_lst[i]["favorite"]="url('/static/icon/yellow_star.png')";
         if(new_lst[i]["price"]==0 || new_lst[i]["price"]==null){

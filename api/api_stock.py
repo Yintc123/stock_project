@@ -178,8 +178,11 @@ def rename_news_source(news_source):
         "鉅亨網":"Anue鉅亨",
         "cnyes.com":"Anue鉅亨",
         "Yahoo奇摩新聞":"Yahoo奇摩股市",
+        "Yahoo奇摩":"Yahoo奇摩股市",
         "Apple Daily TW":"蘋果新聞網",
-        "ETtoday新聞雲":"ETtoday財經雲"
+        "ETtoday新聞雲":"ETtoday財經雲",
+        "TechNews 科技新報 ":"科技新報",
+        "United Daily News":"udn.com",
     }
     if news_source in source_list:
         return source_list[news_source]

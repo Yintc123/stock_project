@@ -52,7 +52,7 @@ async function init(){
             member.show_nav_member(member_info["data"]);
             member.show_member_photo(member_info["data"]["photo"]);
         }
-        console.log(member_info)
+        // console.log(member_info)
     })
 
     stock.get_stock("TAIEX").then(resp => {
