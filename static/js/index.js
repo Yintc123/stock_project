@@ -68,7 +68,7 @@ async function init(){
         news_data=resp;
         reorder_news_data(news_data);
         create_news_columns(news_data);
-        console.log(news_data);
+        // console.log(news_data);
     }).then(() => {
         search.hide_loading();
     })
