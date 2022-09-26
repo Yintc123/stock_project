@@ -170,6 +170,8 @@ def is_in_list(news_source, news_link, news_title, dict_list):
         if news_source == "Anue鉅亨":
             if news_link.split("/")[-1] == item["link"].split("/")[-1]:
                 return True
+        if news_source == "三立新聞網 Setn.com" and news_link.split("-")[0] == item["title"].split("-")[0]:
+            return True
     return False
 
 def rename_news_source(news_source):
@@ -183,6 +185,9 @@ def rename_news_source(news_source):
         "ETtoday新聞雲":"ETtoday財經雲",
         "TechNews 科技新報 ":"科技新報",
         "United Daily News":"udn.com",
+        "聯合新聞網":"udn.com",
+        "star.setn.com":"三立新聞網 Setn.com",
+        "三立新聞":"三立新聞網 Setn.com",
     }
     if news_source in source_list:
         return source_list[news_source]
