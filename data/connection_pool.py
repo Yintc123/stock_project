@@ -10,7 +10,7 @@ conn_pool=MySQLConnectionPool(
     password=dotenv_values(env)['password'],
     database="stock_project",
     pool_name="myPool",
-    pool_size=10,
+    pool_size=2,
     auth_plugin="mysql_native_password",
     port=dotenv_values(env)['port']
 )

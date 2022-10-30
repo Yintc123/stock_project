@@ -7,6 +7,7 @@ from api.api_message import app_message
 from api.api_webpush import app_webpush
 from data.stock_price_notification import *
 from data.update_stock_info import *
+import uvicorn
 
 env=str('.env.'+dotenv_values('.env')["MODE"])
 load_dotenv(override=True)
@@ -37,4 +38,4 @@ app.register_blueprint(app_message, url_prefix="/api")
 app.register_blueprint(app_webpush, url_prefix="/api")
 
 # app.debug=True
-app.run(host=dotenv_values(env)["app_host"], port=5000)
+# app.run(host=dotenv_values(env)["app_host"], port=5000)
