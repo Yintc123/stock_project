@@ -39,3 +39,4 @@ app.register_blueprint(app_webpush, url_prefix="/api")
 
 # app.debug=True
 # app.run(host=dotenv_values(env)["app_host"], port=5000)
+# 使用 WSGI 不用 app.run
